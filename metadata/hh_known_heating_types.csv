@@ -1,0 +1,39 @@
+site,Heating type?,Is Suitable
+34447,1x Storage heater and Underfloor heating - THTC (on/off peak),0
+89773,HP (air to air),0
+3B198,HP (air to air),0
+43BEB,Wet electric with radiators,0
+554D1,HP (air to water),0
+63AD2,Wet electric with radiators,0
+7D4CD,Electric storage heaters,0
+81D63,Storage heaters THTC (on/off pk),0
+830C4,HP (air to air) & Quantum Storage heaters ,0
+8A8FF,Storage heater(s),0
+906DC,Storage heaters THTC (on/off pk),0
+9085F,Storage heaters THTC (on/off peak),0
+947FD,Oil - Wet electric with radiators,1
+B05D7,Oil,1
+B4CE3,HP (air to air) & storage heaters (not in use) with THTC,0
+BA4CB,HP (air to air) on THTC,0
+CE1A1,Possible HP?,0
+EDDA7,Storage heaters THTC (on/off pk),0
+EE5C6,ASHP,0
+6490F,Oil - wet system with radiators,1
+D1F8F,2x ASHP (and storage heaters),0
+BAE1D,Oil - wet system with radiators + 2 storage heaters,0
+5F1F0,air to water heat pump (underfloor heating),0
+97B17,Oil boiler and radiators ,1
+1F815,Ground source heat pump,0
+336D9,ASHP,0
+E453E,Air to water heat pump with radiators,0
+7DE3,Electric storage heaters,0
+17500000,"Ground Source Heat Pump, and Solar Thermal for hot water.",0
+ 44C52," Ground Source Heat Pump, with underfloor heating. No details of any renewables at this house",0
+5700,Suspected Electric heating,0
+20544,Suspected Heatpump,0
+49E9E,Suspected Heatpump,0
+350C4,Suspected Heatpump,0
+8D47,Suspected Heatpump,0
+BEF5F,Suspected Heatpump,0
+8D475,Suspected Heatpump,0
+BCBC,Suspected Heatpump,0
