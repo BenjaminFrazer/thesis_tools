@@ -2,3 +2,5 @@
 /thesis_tools/synthNilmData/__pycache__/filter_stats.cpython-38.pyc
 thesis_tools/config/__pycache__/*.pyc
 */__pycache__/*
+/build/
+/thesis_tools.egg-info/
