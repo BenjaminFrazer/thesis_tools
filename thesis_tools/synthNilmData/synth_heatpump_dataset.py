@@ -9,7 +9,7 @@ import re
 from datetime import datetime
 from nilmtk.datastore import Key
 from nilmtk.datastore import HDFDataStore
-from synthNilmData import calc_optimal_allignment_shift_years
+from .calc_optimal_allignment_shift_years import calc_optimal_allignment_shift_years
 
 def synth_heatpump_dataset(hp_store, hp_stats, hh_store, hh_stats, meter_devices_file, output_file, targetHouseholds=5):
     # figure out the higest samplerate and use that to synthesise the site meter dataset

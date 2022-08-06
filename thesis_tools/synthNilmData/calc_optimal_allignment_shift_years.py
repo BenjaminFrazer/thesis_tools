@@ -1,5 +1,5 @@
 #!/usr/bin/env ipython
-from synthNilmData.get_month_spans import get_month_spans
+from .get_month_spans import get_month_spans
 import numpy as np
 import pandas as pd
 def calc_optimal_allignment_shift_years(months_of_interest,span1,span2):

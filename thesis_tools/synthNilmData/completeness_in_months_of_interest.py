@@ -1,5 +1,5 @@
 #!/usr/bin/env ipython
-from synthNilmData import get_month_spans
+from .get_month_spans import get_month_spans
 def completeness_in_months_of_interest(stats_df,monthsOfInterest):
     def _completionInRegionOfInterest(*args):
         if any(isinstance(x,float) for x in args):
