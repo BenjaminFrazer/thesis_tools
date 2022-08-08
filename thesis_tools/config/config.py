@@ -5,8 +5,6 @@ import pandas as pd
 
 class Paths :
     _raw_data_dir_full_path = "/home/benjaminf/data/"
-    code_rel_path = "/python/"
-    _synth_data_rel_path = "/python/synthNilmData/"
     _this_module_path_rel_2_root = "/../../"
     _interactive_plots_rel_path = "/interactive_plots/"
     _metadata_rel_path = "metadata"
@@ -26,12 +24,14 @@ class Paths :
         self.root_dir = thesisDir
         path = os.path.abspath(__file__)
         module_dir_path = os.path.dirname(path)
-        # import pdb; pdb.set_trace()
         self.thesis_tools_root_dir = module_dir_path+self._this_module_path_rel_2_root
 
     @property
+    def interactive_plots_dir(self):
+        return self.thesis_tools_root_dir+self._interactive_plots_rel_path
+    @property
     def synth_data_path(self):
-        return self.thesis_tools_root_dir+self._synth_data_rel_path
+        return self.thesis_tools_root_dir+self._data_dir_rel_path
 
     @property
     def meter_devices(self):
@@ -75,9 +75,11 @@ class Paths :
 
 
 class Data :
+    paths:Paths
     def __init__(self,paths=None):
         if paths is None:
-            self.paths = Paths()
+            paths = Paths()
+        self.paths = paths
 
     @property
     def hp_proc_data_store(self):
@@ -85,7 +87,7 @@ class Data :
 
     @property
     def hh_proc_data_store(self):
-        return pd.HDFStore(self.paths.hp_proc_data_store)
+        return pd.HDFStore(self.paths.hh_proc_data_store)
 
     @property
     def hh_stats(self):
@@ -93,7 +95,7 @@ class Data :
 
     @property
     def hp_stats(self):
-        return pd.read_hdf(self.paths.hh_proc_stats_store)
+        return pd.read_hdf(self.paths.hp_proc_stats_store)
 
     @property
     def hp_load_profile_categories(self):
@@ -112,6 +114,7 @@ class Data :
     def hp_deadband_cat_list(self):
         hp_deadband_ls = list(self.hp_load_profile_categories["Deadband"].dropna().astype(int))
         return [f"HP{x}" for x in hp_deadband_ls]
+
 
 class Results :
     _results_table = pd.DataFrame()
@@ -157,7 +160,7 @@ class Filter :
 class HHFilter(Filter) :
     # maybe in future this can take a profile defined in a jason?
     def __init__(self) -> None:
-        self._true_keys = ["isSiteSuitible","isSitemeter"] # all of these columns must be tru
+        self._true_keys = ["isSiteSuitible","isSiteMeter"] # all of these columns must be tru
         self.unsuitible_list = self.data.hh_unsuitible_list
         return
 hh_filter_config = HHFilter()
