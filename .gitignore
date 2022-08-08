@@ -4,3 +4,7 @@ thesis_tools/config/__pycache__/*.pyc
 */__pycache__/*
 /build/
 /thesis_tools.egg-info/
+/thesis_tools/helperFunctions/__pycache__/
+/thesis_tools/synthNilmData/__pycache__/
+/thesis_tools/util/__pycache__/
+/metadata/.~lock.hp_load_profile_categories.csv#
