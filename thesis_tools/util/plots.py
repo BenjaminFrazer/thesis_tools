@@ -18,6 +18,7 @@ def plot_sample_loadprofile(stats: pd.DataFrame, offset_d: int, span_d: int, dat
     IDs = list(stats["ID"])
     with pd.HDFStore(datastore_path) as h5:
         df = pd.concat(map(h5.get, IDs), axis=1)
+    df.columns = IDs
     # import warnings
     # warnings.filterwarnings("ignore")
     nplots = len(stats)
