@@ -3,6 +3,8 @@ from .process_raw_heatpump_data import process_raw_heatpump_data
 from .process_raw_household_data import process_raw_household_data
 from .extract_dataset_stats import extract_dataset_stats
 from .synth_heatpump_dataset import synth_heatpump_dataset
+from .synth_heatpump_dataset import synth_heatpump_agregate_dataset
 from .get_month_spans import get_month_spans
 from .calc_optimal_allignment_shift_years import calc_optimal_allignment_shift_years
 from .completeness_in_months_of_interest import completeness_in_months_of_interest
+from .filter_stats import filter_stats
