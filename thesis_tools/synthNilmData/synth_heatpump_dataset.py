@@ -1,4 +1,5 @@
 #!/usr/bin/env ipython
+import pdb
 from nilmtk import appliance, timeframe
 import pandas as pd
 import numpy as np
@@ -87,6 +88,113 @@ def synth_heatpump_dataset(hp_store, hp_stats, hh_store, hh_stats, meter_devices
 
     # build and store the metadata for the dataset
     metadata = gen_dataset_metadata(meter_devices_file,min(starts),max(ends))
+    synth_dataset_source_metadata = pd.concat([hh_stats.loc[0:targetHouseholds-1,"ID"].rename("HH_ID"), hp_stats.loc[0:targetHouseholds-1,"ID"].rename("HP_ID")],axis=1)
+    metadata["synthetic_data_source"] = synth_dataset_source_metadata
+    store_dataset_metadata(metadata, output_file)
+    print("Done writing HDF5!")
+    return
+
+def synth_heatpump_agregate_dataset(hp_store, hp_stats, hh_store, hh_stats, meter_devices_file, output_file, targetHouseholds=5,aggregation_level=1):
+    # this method will combine each heatpump with the same agregate household data to simulate a feeder level mesurement with increaseing agregation level
+    # figure out the higest samplerate and use that to synthesise the site meter dataset
+    hp_appliance_instance = 1 # how many heatpumps do we have
+    sm_meter_instance = 1 # the instance of the sitemeter (indexes this data in the store)
+    hp_meter_instance = 2 # index of the heatpump meter (indexes this data in the store)
+    hp_appliance_meters = [2] # which meters are directly upstream of the heatpump appliance (given as list)
+    MOI = [1,4]
+    ends = [] # track the end times of the synthesised datasets
+    starts = []
+
+
+    agg_hh_start = hh_stats.loc[0,"start"]
+    agg_hh_end= hh_stats.loc[0,"end"]
+    hh_agg_data = pd.Series()
+    for i in range(aggregation_level): # here we will allign and sum up all of the household data
+        this_hh_id = hh_stats.loc[i,'ID'] # the ID of the household dataset
+        this_hh_start = hh_stats.loc[i,'start'] # the start of this household dataset
+        this_hh_end = hh_stats.loc[i,'end']
+        timeshift_this_hh_years= calc_optimal_allignment_shift_years(MOI,[agg_hh_start, agg_hh_end],[this_hh_start,this_hh_end])
+        timeshift_this_hh = np.timedelta64(timeshift_this_hh_years,"Y")
+        # this acts to narrow down the aggregate span to the span in which all datasets have data bc we will get nan's everywher else
+        agg_hh_start = max(this_hh_start+timeshift_this_hh,agg_hh_start)
+        agg_hh_end= min(this_hh_end+timeshift_this_hh,agg_hh_end)
+        this_hh_data=hh_store[this_hh_id].copy()
+        this_hh_data.index = this_hh_data.index + timeshift_this_hh
+        this_hh_data_2_add = this_hh_data[agg_hh_start:agg_hh_end]
+        hh_agg_data = hh_agg_data.add(this_hh_data_2_add,fill_value=0)
+
+    for i in range(targetHouseholds): # loop through the top n of the selected household and heatpump datasets and combine
+        buildingInst = i+1 # nilm convention to start naming buildings from 1
+        key_sm= Key(building=buildingInst, meter=sm_meter_instance) # this uniquely identifies a meter dataset in the store
+        key_hp = Key(building=buildingInst, meter=hp_meter_instance) # this uniquely identifies a meter dataset in the store
+        this_hp_id = hp_stats.loc[i,'ID'] # the ID of the heatpump dataset
+        this_hp_start = hp_stats.loc[i,'start'] # the start of the heatpump dataset
+        this_hp_end = hp_stats.loc[i,'end']
+
+        samplePeriod_hh=hh_stats.loc[i,'samplePeriod']
+        samplePeriod_hp=hp_stats.loc[i,'samplePeriod']
+        selected_samplePeriod = min(samplePeriod_hh, samplePeriod_hp)
+
+        building_key = f'building{buildingInst}'  # e.g. 'building1' # this points to the building level of the store
+        this_timeframe =[] # timeframe of this perticular household's worth of data
+        hhOriginalName = ""
+        hpOriginalName = ""
+        original_name= {'hp':hpOriginalName, 'hh':hhOriginalName} # optional field that allows us to track down the origin of the data
+        building_key = f'building{buildingInst}'  # e.g. 'building1'
+
+        # build and store the metadata for this household
+        hp_appliance_metadata = gen_hp_appliance_metadata(hp_appliance_instance,hp_appliance_meters)
+        meter_metadata_hp = gen_hp_meter_metadata(buildingInst,key_hp)
+        meter_metadata_sm = gen_hh_meter_metadata(buildingInst,key_sm)
+
+        meter_metadata = {hp_meter_instance:meter_metadata_hp,sm_meter_instance:meter_metadata_sm}
+        building_metadata = gen_building_metadata(buildingInst,[hp_appliance_metadata],meter_metadata,this_timeframe,original_name)
+        store_building_metadata(building_metadata, building_key,output_file)
+
+
+        this_hp_data=hp_store[this_hp_id].copy()
+
+        # if this_hp_id== "HP5317":
+        #     import pdb; pdb.set_trace()
+        timeshift_hp_years = calc_optimal_allignment_shift_years(MOI,[agg_hh_start,agg_hh_end],[this_hp_start, this_hp_end])
+        timeshift_hp = np.timedelta64(timeshift_hp_years,"Y")
+        this_hp_data.index = this_hp_data.index + timeshift_hp
+        this_hp_start = this_hp_start+timeshift_hp
+        this_hp_end= this_hp_end+timeshift_hp
+
+        #synthesise dataset
+        synth_dataset_start = max(this_hp_start,agg_hh_start)
+        synth_dataset_end = min(this_hp_end,agg_hh_end)
+        ends.append(synth_dataset_end)
+        starts.append(synth_dataset_start)
+
+        this_hh_agg_data_2_add = hh_agg_data[synth_dataset_start:synth_dataset_end]
+
+        this_hp_data = this_hp_data[synth_dataset_start:synth_dataset_end]
+
+        this_hp_2_add = this_hp_data.resample(selected_samplePeriod).pad()
+        this_hh_agg_data_2_add = this_hh_agg_data_2_add.resample(selected_samplePeriod).pad()
+        this_sm_data = this_hp_2_add+this_hh_agg_data_2_add # sitemeter is the summation of heatpump and household data
+
+        #store synthesises dataset
+        multicol= pd.MultiIndex.from_tuples([('power', 'active')]) # format required by nilmtk
+        this_sm_data = this_sm_data.to_frame()
+        this_hp_data = this_hp_data.to_frame()
+        this_sm_data.columns = multicol
+        this_hp_data.columns = multicol
+        store_data(output_file,this_sm_data,key_sm)
+        store_data(output_file,this_hp_data,key_hp)
+
+    # build and store the metadata for the dataset
+    metadata = gen_dataset_metadata(meter_devices_file,min(starts),max(ends))
+    hh_agg_stats = hh_stats.loc[0:aggregation_level-1,["ID"]]
+    hh_agg_stats = hh_agg_stats
+    hh_agg_stats = hh_agg_stats.T
+    hh_agg_stats = hh_agg_stats.append([hh_agg_stats]*4,ignore_index=True)
+    hh_agg_stats.columns = [f"HH_{x}" for x in hh_agg_stats.columns]
+    # import pdb; pdb.set_trace()
+    synth_dataset_source_metadata = pd.concat([hp_stats.loc[0:targetHouseholds-1,"ID"].rename("HP_ID"),hh_agg_stats],axis=1)
+    metadata["synthetic_data_source"] = synth_dataset_source_metadata
     store_dataset_metadata(metadata, output_file)
     print("Done writing HDF5!")
     return
@@ -173,53 +281,13 @@ def gen_hh_meter_metadata(building_instance, key):
 
 if __name__ == "__main__":
 
-    from config import Paths
+    from ..config import Paths,hh_filter_config,hp_filter_config, Data
+    from ..synthNilmData import filter_stats
     paths = Paths()
+    data = Data(paths)
 
-    outputFilePrefix = "SHDS"
     dateString = datetime.now().strftime("%d-%m-%y")
-    outputFile = f"{paths.synth_data_path}/{outputFilePrefix}_{dateString}.hdf5"
-
-    hp_stats = pd.read_hdf(paths.hp_proc_stats_store)
-    hp_stats = hp_stats.reset_index()
-    hp_stats["Comp_1-4"] = (hp_stats['Comp_M1']+hp_stats["Comp_M2"]+hp_stats["Comp_M3"]+hp_stats["Comp_M4"])/4
-    hp_stats = hp_stats[
-        # (hp_stats['maxGap']<=pd.Timedelta(3,"D"))&
-        (hp_stats['span_d']>300)&
-        (hp_stats['Comp_M1']>0.90)&
-        (hp_stats['Comp_M2']>0.90)&
-        (hp_stats['Comp_M3']>0.90)&
-        (hp_stats['Comp_M4']>0.90)&
-        (hp_stats['samplePeriod']<=pd.Timedelta(180,"s"))].reset_index(drop=True)
-    hp_stats = hp_stats.sort_values("Comp_1-4",ascending=False)
-    hp_stats = hp_stats.reset_index()
-    hp_stats = hp_stats.loc[0:4]
-
-    hh_unsuitible = pd.read_csv(paths.hh_known_heating_types)
-    hh_unsuitible = hh_unsuitible[hh_unsuitible["Is Suitable"].round()==0].drop_duplicates(subset=["site"])[["site", "Heating type?"]]
-    hh_unsuitible_ls= list(hh_unsuitible["site"])
-    hh_stats = pd.read_hdf(paths.hh_proc_stats_store)
-    hh_stats["Comp_1-4"] = (hh_stats['Comp_M1']+hh_stats["Comp_M2"]+hh_stats["Comp_M3"]+hh_stats["Comp_M4"])/4
-    hh_stats = hh_stats.reset_index()
-    hh_stats = hh_stats[
-        (hh_stats['isSiteMeter'])&
-        (hh_stats['isSiteSuitible'])&
-        (hh_stats['Comp_M1']>0.90)&
-        (hh_stats['Comp_M2']>0.90)&
-        (hh_stats['Comp_M3']>0.90)&
-        (hh_stats['Comp_M4']>0.90)&
-        # (hh_stats['maxGap']<=pd.Timedelta(1,"D"))&
-        (~hh_stats['ID'].isin(hh_unsuitible_ls))&
-        # (hh_stats['span_d']>120)&
-        (hh_stats['samplePeriod']<=pd.Timedelta(180,"s"))].reset_index(drop=True)
-    hh_stats = hh_stats.sort_values("Comp_1-4",ascending=False)
-    hh_stats = hh_stats.reset_index()
-    hh_stats = hh_stats.loc[0:4]
-
-    synth_dataset_metadata_csv = pd.concat([hh_stats["ID"].rename("HH_ID"), hp_stats["ID"].rename("HP_ID")],axis=1)
-    synth_dataset_metadata_csv.to_csv()
-
-    hh_store = pd.HDFStore(paths.hh_proc_data_store)
-    hp_store = pd.HDFStore(paths.hp_proc_data_store)
-
-    synth_heatpump_dataset(hp_store,hp_stats,hh_store,hh_stats,paths.meter_devices,outputFile)
+    output_file = os.getcwd()+f"Test_SHDS_Mixed_{dateString}.hdf5"
+    hp_selected = filter_stats(data.hp_stats,hp_filter_config)
+    hh_selected = filter_stats(data.hh_stats,hh_filter_config)
+    synth_heatpump_agregate_dataset(data.hp_proc_data_store, hp_selected, data.hh_proc_data_store, hh_selected, paths.meter_devices, output_file, targetHouseholds=5, aggregation_level=5)
