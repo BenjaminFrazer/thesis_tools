@@ -27,7 +27,7 @@ def filter_stats(stats:pd.DataFrame,filt:Filter):
     if len(filt._false_keys)>0:
         for key in filt._false_keys:
             suitible&=(~stats[key])
-    import ipdb; ipdb.set_trace()
+    # import ipdb; ipdb.set_trace()
     # filter by suitible list
     suitible_list = filt.suitible_list
     if len(suitible_list)>0:
@@ -44,12 +44,12 @@ def filter_stats(stats:pd.DataFrame,filt:Filter):
 
 if __name__ == '__main__':
     test_stats_hh = pd.DataFrame([
-        {"Pass":True, "ID": "IDK13", "isSiteSuitible":True, "isSitemeter":True, "samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # should pass
-        {"Pass":False,"ID": "89773", "isSiteSuitible":True, "isSitemeter":True, "samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # blocked by ID in known heating types
-        {"Pass":False,"ID": "IDK12", "isSiteSuitible":True, "isSitemeter":True, "samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.88,"Comp_M12":0.2}, # blocked by completion
-        {"Pass":False,"ID": "IDK12", "isSiteSuitible":True, "isSitemeter":True, "samplePeriod":200,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # blocked by samplerate
-        {"Pass":False,"ID": "IDK12", "isSiteSuitible":True, "isSitemeter":False,"samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # blocked by isSitemeter
-        {"Pass":False,"ID": "IDK12", "isSiteSuitible":False,"isSitemeter":False,"samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # blocked by isSutible
+        {"Pass":True, "ID": "IDK13", "isSiteSuitible":True, "isSiteMeter":True, "samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # should pass
+        {"Pass":False,"ID": "89773", "isSiteSuitible":True, "isSiteMeter":True, "samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # blocked by ID in known heating types
+        {"Pass":False,"ID": "IDK12", "isSiteSuitible":True, "isSiteMeter":True, "samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.88,"Comp_M12":0.2}, # blocked by completion
+        {"Pass":False,"ID": "IDK12", "isSiteSuitible":True, "isSiteMeter":True, "samplePeriod":200,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # blocked by samplerate
+        {"Pass":False,"ID": "IDK12", "isSiteSuitible":True, "isSiteMeter":False,"samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # blocked by isSitemeter
+        {"Pass":False,"ID": "IDK12", "isSiteSuitible":False,"isSiteMeter":False,"samplePeriod":110,"Comp_M1":0.91,"Comp_M2":0.91,"Comp_M3":0.91,"Comp_M4":0.91,"Comp_M12":0.2}, # blocked by isSutible
     ])
     test_stats_hh["samplePeriod"]=pd.to_timedelta(test_stats_hh["samplePeriod"],unit="s")
     test_stats_hp = pd.DataFrame([
