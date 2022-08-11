@@ -13,3 +13,6 @@ thesis_tools/config/__pycache__/*.pyc
 *.tex
 *.aux
 *.bbl
+/data/
+/figures/
+/results/
