@@ -28,8 +28,9 @@ This work aims to investigate points A) and B) for heat-pumps by testing the per
 - Increasing temporal aggregation levels i.e. decreasing sample rate
 
 * State of the art
-#+caption: Sample of Disaggregation algorithms estimating a heat-pump load profile at a variety of power aggregation levels, the true appliance ground truth is plotted in black
-#+NAME: figIncreasingAggLevels
+#+begin_quote
+Sample of Disaggregation algorithms estimating a heat-pump load profile at a variety of power aggregation levels, the true appliance ground truth is plotted in black
+#+end_quote
 [[file:figures/increasingAggLevels_poster.png]]
 
 ** Algorithms
