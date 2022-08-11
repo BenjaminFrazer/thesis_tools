@@ -38,7 +38,7 @@ This algorithm predicts by simply taking the mean of the power in the training s
 
 *** Factorial Hidden Markov Model (FHMM)
 In a Factorial Hidden Markov Model (FHMM) a set of observations \(Y_t\) are dependent on a set of independent Markov chains representing the state of each appliance. Each state in the model repents a single output power, as such a FHMM cannot represent a continuously variable device.
-
+[[file:figures/FHMM.drawio.png]]
 *** Combinatorial Optimization (CO)
 With Combinatorial Optimization (CO) the disaggregation problem is formulated as a set of appliances each with a finite set of states corresponding to constant power levels. The algorithm aims to find the combination of these discrete states that minimizes the difference between the household aggregate and the sum of the power for each appliance.
 
@@ -68,6 +68,7 @@ For both the training and benchmarking of these algorithms, test data is needed 
 #+caption: High level flow-chart of the algorithm evaluation methodology
 #+NAME: figAlgEval
 [[file:figures/EvaluationMethodology.drawio.png]]
+
 #+NAME: eqIncreasingAggLevels
 \begin{align}
 Y_{t,N} = \sum_{n=1}^{n=N}H_{n,t}+P_t
