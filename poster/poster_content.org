@@ -40,11 +40,13 @@ This algorithm predicts by simply taking the mean of the power in the training s
 *** Factorial Hidden Markov Model (FHMM)
 In a Factorial Hidden Markov Model (FHMM) a set of observations \(Y_t\) are dependent on a set of independent Markov chains representing the state of each appliance. Each state in the model repents a single output power, as such a FHMM cannot represent a continuously variable device.
 [[file:figures/FHMM.drawio.png]]
+- measurements written wrong
 *** Combinatorial Optimization (CO)
 With Combinatorial Optimization (CO) the disaggregation problem is formulated as a set of appliances each with a finite set of states corresponding to constant power levels. The algorithm aims to find the combination of these discrete states that minimizes the difference between the household aggregate and the sum of the power for each appliance.
 
 *** Sequence to Sequence (Seq2Seq)
 In sequence to sequence, a neural network maps a sliding window of the aggregate site meter to a window of the target appliance.
+[[file:figures/Seq2Seq.drawio.png]]
 
 *** Sequence to Point (Seq2Point)
 As above a neural network operates on a sliding window of the aggregate site meter, this time outputting a single point predictions of the target appliance in the centre of the time window.
