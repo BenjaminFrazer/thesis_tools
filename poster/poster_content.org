@@ -67,7 +67,7 @@ The NILMTK is written exclusively in Python, and beyond it's other advantages it
 For both the training and benchmarking of these algorithms, test data is needed which includes both the aggregate 'site-meter' measurement as well as a 'sub-meter' measurement just upstream of the heat pump. Through a comprehensive study of the many existing NILM datasets, only few sites with heat-pumps were identified. Further more limitations within NILMTK would make it challenging to test increasing power aggregation levels. Data for five individual households with heat pumps has instead been artificially synthesized combining heat-pump and domestic load-profiles. This data was created following a schema to allow for compatibility with NILMTK which specifies how data/metadata is structured and stored.
 #+caption: High level flow-chart of the algorithm evaluation methodology
 #+NAME: figAlgEval
-[[file:figures/Evaluation Methedology.drawio.png]]
+[[file:figures/EvaluationMethodology.drawio.png]]
 #+NAME: eqIncreasingAggLevels
 \begin{align}
 Y_{t,N} = \sum_{n=1}^{n=N}H_{n,t}+P_t
