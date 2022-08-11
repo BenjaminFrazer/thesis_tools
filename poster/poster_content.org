@@ -50,6 +50,7 @@ In sequence to sequence, a neural network maps a sliding window of the aggregate
 
 *** Sequence to Point (Seq2Point)
 As above a neural network operates on a sliding window of the aggregate site meter, this time outputting a single point predictions of the target appliance in the centre of the time window.
+[[file:figures/Seq2Point.drawio.png]]
 
 *** De-noising Auto-encoder (DAE)
 The de-noising auto-encoder is a class of neural network which attempts to reconstruct its input given an assumed source of corruption. In the case of nilm, a fixed window of the aggregate measurement is assumed to be the corrupted signal and is then while the target appliance load profile is the desired uncorrupted signal.
