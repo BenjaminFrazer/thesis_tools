@@ -8,3 +8,8 @@ thesis_tools/config/__pycache__/*.pyc
 /thesis_tools/synthNilmData/__pycache__/
 /thesis_tools/util/__pycache__/
 /metadata/.~lock.hp_load_profile_categories.csv#
+/poster/Benoit's Poster Guidance.jpg
+*.toc
+*.tex
+*.aux
+*.bbl
