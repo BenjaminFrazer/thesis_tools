@@ -14,5 +14,6 @@ thesis_tools/config/__pycache__/*.pyc
 *.aux
 *.bbl
 /data/
-/figures/
 /results/
+/interactive_plots/*.html
+/poster/figures/drawio/*.bkp
