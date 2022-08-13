@@ -12,13 +12,13 @@ Incentivise changes to consumer behaviour through a flexibility market would all
 Balancing investment in flexibility services such as demand side response (DSR) network reinforcement requires an understanding of the potential DSR capacity of a given region of network. This information could of course be achieved though intrusive means such as surveying however developments in the field of Non Intrusive Load Monitoring may also be relevant to this problem.
 
 ** NILM
-Non intrusive load monitoring (NILM) or non-intrusive appliance load monitoring is the process of estimating load profiles from an aggregated measurement of current voltage data. Non intrusive - because there are no potentially inconvenient sub-meters on every appliance of interest, rather an uninstructive single external measurement.
+Non intrusive load monitoring (NILM) or non-intrusive appliance load monitoring is the process of estimating load profiles from an aggregated measurement of current voltage data.
 
-Though the idea of NILM has been in the literature since Hart's seminal 1981 paper, recent developments in artificial neural networks (ANN) have lead to substantial improvements in this area.
+Though the idea of NILM has been in the literature since Hart's seminal 1991 paper, recent developments in artificial neural networks (ANN) have lead to substantial improvements in this area.
 #+begin_quote
-Typical Household NILM problem
+Typical Household NILM problem, Adapted from Hart 1991
 #+end_quote
-[[file:figures/NILM.drawio.png]]
+[[file:figures/NILM_with_Figure.drawio.png]]
 
 ** Aims
 NILM has traditionally been targeted towards disaggregating single appliances from single households at sample periods ranging between ~1s-3min. The key distinction between this type of problem and what future DSO's might face is:
@@ -91,10 +91,6 @@ Y_{t,N} = \sum_{n=1}^{n=N} H_{n,t}+P_t
 [[file:figures/eqDatasetSyntheis.svg]]
 
 For each of the five datasets \(Y_{t,N}\) denotes an aggregate measurement of aggregation level N at time \(t\), \(H_{n,t}\) denotes the n_th household load profile at time step \(t\) and \(P_t\) denotes an instantaneous measurement of the heat pump load profile.
-
-*** Mixed Dataset structure
-The mixed dataset attempts to represents a random collection of five household load profiles each with a single heat pump. Thus each household within the set represents an aggregation "level" of one.
-[[file:figures/MixedDataset.drawio.png]]
 
 *** Increasing power aggregation dataset structure
 The five increasing power aggregation datasets respectively represent a feeder with a single household containing a heat pump with N other non heat pump households. Thus each dataset represents one particular power aggregation "level" between 1-5. It should be noted that each dataset itself contains five household.
