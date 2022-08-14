@@ -49,7 +49,7 @@ In sequence to sequence, a neural network maps a sliding window of the aggregate
 [[file:figures/Seq2Seq.drawio.png]]
 
 *** Sequence to Point (Seq2Point)
-As above a neural network operates on a sliding window of the aggregate site meter, this time outputting a single point predictions of the target appliance in the centre of the time window.
+~As before, a neural network operates on a sliding window of the aggregate site meter, this time outputting a single point predictions of the target appliance in the centre of the time window.~
 [[file:figures/Seq2Point.drawio.png]]
 
 *** De-noising Auto-encoder (DAE)
