@@ -118,19 +118,18 @@ Each algorithm is evaluated by calculating the RMSE of the prediction vs the hea
 #+end_quote
 [[file:figures/increasingAggLevels_poster.png]]
 
-Algorithm performance is summarized in Figure ref:figOverAllRes by comparing a subset of results at various levels extremes of aggregation. Each bar represents an algorithms average MNRMSE for a given temporal and power aggregation with error bars display the variability between heat-pumps.
+Algorithm performance over all agregation scenarios is summarized in Figure ref:figOverAllRes by subset of results at the extremes of both power and temporal aggregation. Each bar represents an algorithms average MNRMSE for a given combination of temporal and power aggregation.
 #+begin_quote
 /Average normalized performance for algorithms at various temporal & power aggregation levels/
 #+end_quote
 #+NAME: figOverAllRes
 [[file:figures/overallResults.png]]
-Sweeps of aggregation levels are shown in Figure ref:figIncreaseingAggOverAllRes with a varying degrees of a given aggregation type plotted as the dependant variable while the other type is kept at a constant value (CO and FHMM omitted due to poor performance).
+Sweeps of aggregation level are shown in Figure ref:figIncreaseingAggOverAllRes with a increasing aggregation of time or power plotted dependant variable while the other type is kept constant (CO and FHMM omitted due to poor performance).
 #+NAME: figIncreaseingAggOverAllRes
 #+begin_quote
-/Average MNRMSE performance per algorithm at increasing power (leftmost) and increasing temporal aggregation levels (right three)/
+/Average MNRMSE performance per algorithm at increasing power (leftmost) and increasing temporal aggregation levels (right three)./ 
 #+end_quote
 [[file:figures/performansVsIncreasingAggLevel.png]]
-
 
 ** Discussion & conclusions
 *** CO & FHMM
