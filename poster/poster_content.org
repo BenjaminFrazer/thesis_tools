@@ -7,7 +7,7 @@ The transition to a lower carbon economy will put pressure on the electrical pow
 - Intermittent generation means that providing an interrupted service at low cost will be challenging
 - More loads such as electric vehicles (EVs) and heat-pumps will cause increasing congestion and voltage excursions on the network.
 
-~Incentivise changes to consumer behaviour through a flexibility market would allow demand to shape dynamically around network constraints and energy availability.~ Balancing investment in flexibility services such as Demand Side Response (DSR) network reinforcement requires an understanding of the potential DSR capacity of a given region of network. This information could of course be gained though means such as surveying however developments in the field of Non Intrusive Load Monitoring may also be relevant to this problem.
+Incentivise changes to consumer behaviour through a flexibility market would allow demand to shape dynamically around network constraints and energy availability. Balancing investment in flexibility services such as Demand Side Response (DSR) network reinforcement requires an understanding of the potential DSR capacity of a given region of network. This information could of course be gained though means such as surveying however developments in the field of Non Intrusive Load Monitoring may also be relevant to this problem.
 
 ** NILM
 Non intrusive load monitoring (NILM) or non-intrusive appliance load monitoring is the process of estimating load profiles from an aggregated measurement of current voltage data.
@@ -49,7 +49,7 @@ In sequence to sequence, a neural network maps a sliding window of the aggregate
 [[file:figures/Seq2Seq.drawio.png]]
 
 *** Sequence to Point (Seq2Point)
-~As before, a neural network operates on a sliding window of the aggregate site meter, this time outputting a single point predictions of the target appliance in the centre of the time window.~
+As before, a neural network operates on a sliding window of the aggregate site meter, this time outputting a single point predictions of the target appliance in the centre of the time window.
 [[file:figures/Seq2Point.drawio.png]]
 
 *** De-noising Auto-encoder (DAE)
@@ -107,7 +107,7 @@ Increasing power aggregation is evaluated by running once on each of the five ag
 
 * Results
 #+begin_quote
-~/Sample of Disaggregation algorithms estimating a heat-pump load profile at a variety of power aggregation levels, ground truth is plotted in black, whilst the final plot shows total feeder level aggregation at each "Level"/~
+Sample of Disaggregation algorithms estimating a heat-pump load profile at a variety of power aggregation levels, ground truth is plotted in black, whilst the final plot shows total feeder level aggregation at each "Level"
 #+end_quote
 [[file:figures/increasingAggLevels_poster.png]]
 
@@ -120,22 +120,22 @@ Algorithm performance over all agregation scenarios is summarized in Figure ref:
 Sweeps over increasing aggregation level are shown in Figure ref:figIncreaseingAggOverAllRes with the agregation plotted in SI units as the dependant variable while the other type is kept constant (CO and FHMM omitted due to poor performance).
 #+NAME: figIncreaseingAggOverAllRes
 #+begin_quote
-~/MNRMSE algorith performance at increasing power aggregation levels/~ 
+/MNRMSE algorith performance at increasing power aggregation levels/
 #+end_quote
 [[file:figures/performansVsIncreasingAggLevel.png]]
 
 ** Discussion & conclusions
 *** CO & FHMM
-~Since CO and FHMM rely on a finite set of states, poor performance with a continuously variable load partially expected. It is noted that these algorithms appear more sensitive to power aggregation than temporal aggregation. Both algorithms quickly drop below 0 implying that they offer no predicting power under these conditions.~
+Since CO and FHMM rely on a finite set of states, poor performance with a continuously variable load partially expected. It is noted that these algorithms appear more sensitive to power aggregation than temporal aggregation. Both algorithms quickly drop below 0 implying that they offer no predicting power under these conditions.
 
 *** Neural Network based Algorithms
-~The neural network based algorithms performed collectively substantial better, seq2point performing on average the best. In both cases, an initial rapid drop in performance is observed before settling. At the highest power aggregation, the sensitivity to temporal aggregation, seems to be much lower.~
+The neural network based algorithms performed collectively substantial better, seq2point performing on average the best. In both cases, an initial rapid drop in performance is observed before settling. At the highest power aggregation, the sensitivity to temporal aggregation, seems to be much lower.
 
 *** Conclusions
 - Neural Networks based disaggregation algorithms specifically seq2seq/seq2point seems to hold the greatest promise for heat pump disaggregation for both high temporal and power aggregation
 - Accuracy at high temporal aggregation similar to those expected from domestic smart meters performs very well at single household power aggregation levels
 - Worst performance is observed as expected at the combination of high temporal and power aggregation
-- ~Power aggregation seems to pose the greatest overall impact overall~
+- ~Performance seems to be substantialy more sensitive to power aggregation~
 
 * Links
 - NILMTK :: https://github.com/nilmtk/nilmtk
