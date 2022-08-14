@@ -87,6 +87,7 @@ y_{t,N} = \sum_{n=1}^{n=N} h_{n,t}+p_t
 [[file:figures/IncreasingPowAggDataset.drawio.png]]
 
 ** Algorithm Training and Evaluation
+*** Training
 The algorithms trained on a three month span of January-March and bench-marked on the entirety of April.
 
 *** Increasing Temporal Aggregation
@@ -135,7 +136,7 @@ The neural network based algorithms performed collectively substantial better, s
 - Neural Networks based disaggregation algorithms specifically seq2seq/seq2point seems to hold the greatest promise for heat pump disaggregation for both high temporal and power aggregation
 - Accuracy at high temporal aggregation similar to those expected from domestic smart meters performs very well at single household power aggregation levels
 - Worst performance is observed as expected at the combination of high temporal and power aggregation
-- ~Performance seems to be substantialy more sensitive to power aggregation~
+- ~Performance seems to be substantialy more sensitive to power than temporal agregation~
 
 * Links
 - NILMTK :: https://github.com/nilmtk/nilmtk
