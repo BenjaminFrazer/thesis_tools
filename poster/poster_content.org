@@ -7,9 +7,7 @@ The transition to a lower carbon economy will put pressure on the electrical pow
 - Intermittent generation means that providing an interrupted service at low cost will be challenging
 - More loads such as electric vehicles (EVs) and heat-pumps will cause increasing congestion and voltage excursions on the network.
 
-Incentivise changes to consumer behaviour through a flexibility market would allow demand to shape dynamically around network constraints and energy availability. National Grid hopes that the newly introduced role of Distribution System Operator (DSO) will facilitate competing services such as flexibility and reinforcement on the distribution system to drive down costs.
-
-Balancing investment in flexibility services such as demand side response (DSR) network reinforcement requires an understanding of the potential DSR capacity of a given region of network. This information could of course be achieved though intrusive means such as surveying however developments in the field of Non Intrusive Load Monitoring may also be relevant to this problem.
+~Incentivise changes to consumer behaviour through a flexibility market would allow demand to shape dynamically around network constraints and energy availability.~ Balancing investment in flexibility services such as Demand Side Response (DSR) network reinforcement requires an understanding of the potential DSR capacity of a given region of network. This information could of course be gained though means such as surveying however developments in the field of Non Intrusive Load Monitoring may also be relevant to this problem.
 
 ** NILM
 Non intrusive load monitoring (NILM) or non-intrusive appliance load monitoring is the process of estimating load profiles from an aggregated measurement of current voltage data.
@@ -27,7 +25,7 @@ B) Higher power aggregation level (i.e. more households) simulating a feeder lev
 C) Multiple devices of the same class downstream of a given measurement
 D) No prior knowledge of the type of loads under a given measurement point
 #+begin_quote
-/Example of the "Large Scale" NILM that arises from the measurement points that the DSO might have access to on a typical feeder system/
+/Example of the "Large Scale" NILM that arises from the measurement points that the DSO is expected to have access to on a typical feeder system/
 #+end_quote
 [[file:figures/LargeScaleNILM.drawio.png]]
 
@@ -36,7 +34,6 @@ This work aims to investigate points A) and B) for heat-pumps by testing the per
 - Increasing temporal aggregation levels i.e. decreasing sample rate
 
 * State of the art
-
 ** Algorithms
 *** Mean Disaggregation (Mean)
 This algorithm predicts by simply taking the mean of the power in the training set over all time and simply predicting consistent on state at this magnitude. Though this is an exclusively primitive approach it is included as a benchmark against which to compare other algorithms.
@@ -58,16 +55,12 @@ As above a neural network operates on a sliding window of the aggregate site met
 *** De-noising Auto-encoder (DAE)
 The de-noising auto-encoder is a class of neural network which attempts to reconstruct its input given an assumed source of corruption. In the case of nilm, a fixed window of the aggregate measurement is assumed to be the corrupted signal and is then while the target appliance load profile is the desired uncorrupted signal.
 
-** Tools
+** Tools Used
 *** NILMTK
 The non intrusive monitoring toolkit (NILMTK) is an open source software project aimed at providing a set of tools, test data and unified framework for benchmarking NILM algorithms. All NILM algorithms tested in this work were made available by the respective researcher in the NILMTK.
 
 *** Python
-The NILMTK is written exclusively in Python, and beyond it's other advantages it makes this the obvious choice for tasks such as data processing and analysis and presentation. In particular heavy use was made of the following non core python libraries:
-- Pandas - Data processing, filtering and synthesis
-- Numpy - as above
-- Matplotlib - Data Presentation (static figures)
-- Plotly - interactive plots on github
+The NILMTK is written exclusively in Python, and beyond it's other advantages it makes this the obvious choice for tasks such as data processing and analysis and presentation. 
 
 * Implementation
 #+begin_quote
@@ -97,13 +90,13 @@ y_{t,N} = \sum_{n=1}^{n=N} h_{n,t}+p_t
 The algorithms trained on a three month span of January-March and bench-marked on the entirety of April.
 
 *** Increasing Temporal Aggregation
-Sweeps with increasing temporal aggregation are generated using the down-sampling feature of the NILMTK experimentation API with sample periods of 1 to 15 minutes.
+~Sweeps with increasing temporal aggregation are generated using the down-sampling feature of the NILMTK experimentation API with sample periods from 1 to 15 minutes.~
 
 *** Increasing Power Aggregation
 Increasing power aggregation is evaluated by running once on each of the five aggregation level datasets at a fixed sample period of 2 mins.
 
 *** Performance Metric - Mean Normalized RMSE (MNRMSE)
-Each algorithm is evaluated by calculating the RMSE of the prediction vs the heat-pump ground truth for each algorithm. RMSE is normalized against the RMSE of by the Mean algorithm for that same household, yielding a valid comparisons metric between appliances. With MNRMSE 1 as the maximum attainable value, 0 being the same performance as Mean and, negative values represent poorer performance than Mean.
+~Each algorithm is evaluated by calculating the RMSE between the prediction and ground truth for each algorithm. RMSE is normalized against the RMSE of the Mean algorithm, yielding a valid comparisons metric between appliances. With MNRMSE=1 as the maximum attainable value, 0 being the same as Mean and, negative values represent poorer performance than Mean.~
 
 #+NAME: eqMNRMSE
 \begin{align}
@@ -114,35 +107,35 @@ Each algorithm is evaluated by calculating the RMSE of the prediction vs the hea
 
 * Results
 #+begin_quote
-/Sample of Disaggregation algorithms estimating a heat-pump load profile at a variety of power aggregation levels, the true appliance ground truth is plotted in black, whilst the lowest plot shows the total feeder level aggregation at each "Level"/
+~/Sample of Disaggregation algorithms estimating a heat-pump load profile at a variety of power aggregation levels, ground truth is plotted in black, whilst the final plot shows total feeder level aggregation at each "Level"/~
 #+end_quote
 [[file:figures/increasingAggLevels_poster.png]]
 
-Algorithm performance over all agregation scenarios is summarized in Figure ref:figOverAllRes by subset of results at the extremes of both power and temporal aggregation. Each bar represents an algorithms average MNRMSE for a given combination of temporal and power aggregation.
+Algorithm performance over all agregation scenarios is summarized in Figure ref:figOverAllRes with a subset of results at the extremes of both power and temporal aggregation. 
 #+begin_quote
 /Average normalized performance for algorithms at various temporal & power aggregation levels/
 #+end_quote
 #+NAME: figOverAllRes
 [[file:figures/overallResults.png]]
-Sweeps of aggregation level are shown in Figure ref:figIncreaseingAggOverAllRes with a increasing aggregation of time or power plotted dependant variable while the other type is kept constant (CO and FHMM omitted due to poor performance).
+Sweeps over increasing aggregation level are shown in Figure ref:figIncreaseingAggOverAllRes with the agregation plotted in SI units as the dependant variable while the other type is kept constant (CO and FHMM omitted due to poor performance).
 #+NAME: figIncreaseingAggOverAllRes
 #+begin_quote
-/Average MNRMSE performance per algorithm at increasing power (leftmost) and increasing temporal aggregation levels (right three)./ 
+~/MNRMSE algorith performance at increasing power aggregation levels/~ 
 #+end_quote
 [[file:figures/performansVsIncreasingAggLevel.png]]
 
 ** Discussion & conclusions
 *** CO & FHMM
-Since CO and FHMM rely on a finite set of states the poor performance with a continuously variable load partially expected, however in both cases the dominant errors arise from miss-classification of state. It is also noted that these algorithms appear more sensitive to power aggregation than temporal aggregation though in both cases both quickly drop below 0 implying that they offer no predicting power.
+~Since CO and FHMM rely on a finite set of states, poor performance with a continuously variable load partially expected. It is noted that these algorithms appear more sensitive to power aggregation than temporal aggregation. Both algorithms quickly drop below 0 implying that they offer no predicting power under these conditions.~
 
 *** Neural Network based Algorithms
-The neural network based algorithms performed collectively substantial better, seq2point performing on average the best, however being overtaken by seq2seq at the extreme. In both cases, an initial rapid drop in performance is observed before setting. At the highest power aggregation, the effect of increasing temporal aggregation, seems to be much lower and settles rapidly slightly above mean disaggregation implying there.
+~The neural network based algorithms performed collectively substantial better, seq2point performing on average the best. In both cases, an initial rapid drop in performance is observed before settling. At the highest power aggregation, the sensitivity to temporal aggregation, seems to be much lower.~
 
 *** Conclusions
 - Neural Networks based disaggregation algorithms specifically seq2seq/seq2point seems to hold the greatest promise for heat pump disaggregation for both high temporal and power aggregation
 - Accuracy at high temporal aggregation similar to those expected from domestic smart meters performs very well at single household power aggregation levels
 - Worst performance is observed as expected at the combination of high temporal and power aggregation
-- Power aggregation seems to pose the greatest overall impact overall though it is noted that at medium power aggregation the transition between high and low temporal aggregation is very substantial
+- ~Power aggregation seems to pose the greatest overall impact overall~
 
 * Links
 - NILMTK :: https://github.com/nilmtk/nilmtk
