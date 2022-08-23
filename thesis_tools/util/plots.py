@@ -15,6 +15,7 @@ import plotly.io as pio
 # from ..config import Paths
 # paths = Paths()
 def plot_sample_loadprofile(stats: pd.DataFrame, offset_d: int, span_d: int, datastore_path: str) -> None:
+    stats = stats[~stats["empty"]].reset_index()
     IDs = list(stats["ID"])
     with pd.HDFStore(datastore_path) as h5:
         df = pd.concat(map(h5.get, IDs), axis=1)
@@ -23,6 +24,7 @@ def plot_sample_loadprofile(stats: pd.DataFrame, offset_d: int, span_d: int, dat
     # warnings.filterwarnings("ignore")
     nplots = len(stats)
     fig, axs = plt.subplots(nplots)
+    plt.subplots_adjust(wspace=0, hspace=0)
     for i in range(nplots):
         ID = stats.loc[i,"ID"]
         start = stats.loc[i,"start"]+pd.Timedelta(offset_d,"D")
@@ -33,13 +35,35 @@ def plot_sample_loadprofile(stats: pd.DataFrame, offset_d: int, span_d: int, dat
         if i +1 < nplots:
             axs[i].axes.xaxis.set_ticklabels([])
     plt.show()
-    return
+    return fig
+
+def plot_sample_loadprofile_noshift(stats: pd.DataFrame, start, end, datastore_path: str) -> None:
+    stats = stats[~stats["empty"]].reset_index()
+    IDs = list(stats["ID"])
+    with pd.HDFStore(datastore_path) as h5:
+        df = pd.concat(map(h5.get, IDs), axis=1)
+    df.columns = IDs
+    # import warnings
+    # warnings.filterwarnings("ignore")
+    nplots = len(stats)
+    fig, axs = plt.subplots(nplots)
+    plt.subplots_adjust(wspace=0, hspace=0)
+    for i in range(nplots):
+        ID = stats.loc[i,"ID"]
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            df.loc[start:end,ID].plot(ax=axs[i],legend=ID).legend(loc="upper right")
+        if i +1 < nplots:
+            axs[i].set_xticks([],[])
+    plt.show()
+    return fig
 
 def plotly_sample_load_profiles(stats :pd.DataFrame, offset_d:int, span_d:int, datastore_path:str, output_filename:str):
     import warnings
     warnings.filterwarnings("ignore")
     nplots = len(stats)
     fig = make_subplots(rows=len(stats),cols=1,shared_xaxes=True)
+    plt.subplots_adjust(wspace=0, hspace=0)
     common_index = pd.Series() # make the lsp happy
     for i in range(nplots):
         ID = stats.loc[i,"ID"]
