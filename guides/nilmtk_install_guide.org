@@ -1,6 +1,11 @@
 #+STARTUP: latexpreview
 #+STARTUP:  overview
-* Base Installation with Using VirtualEnv
+* Teble Of Contents :TOC_3:
+  - [[#make-a-virtual-environment-with-a-particular-version-of-python][Make a virtual environment with a particular version of python]]
+- [[#install-with-contrib-using-virtualenv][Install with contrib using VirtualEnv]]
+  - [[#the-problem-with-nilmtk-versioning][The Problem With NILMTK Versioning]]
+  - [[#the-problem-with-contrib-dependencies][The Problem With Contrib Dependencies]]
+
 *Overview:*
 This guide will hopefully take you through the NILMTK install using python virtual env. The suggested method of installation via conda didn't work (at least on Linux), but this *[[https://github.com/nilmtk/nilmtk/issues/953][issue]]* was found on the github page and suggested just using pip directly with a virtual environment. For this the [[id:4b4a7f3c-066a-4f12-9bd0-9279c956b752][virtualenv]] tool was used in conjunction with the =virtualenvwrapper=.
 
@@ -52,8 +57,8 @@ Both problems are treated in more detail below.
 2. install nilmtk-metadata though pip from github
 3. [optionally fork &] clone nilmtk to local file system
 4. checkout the version tag you wish to use (in my case the most recent ~0.4.3~)
-5. edit =setup.py= for the correct version number (~0.4.3~) see [[*The Problem With NILMTK Versioning][this section]].
-6. comment out imports in =nilmtk_contrib/disaggregate/__init__.py= see [[*The Problem With Contrib Dependencies][this section]].
+5. edit =setup.py= for the correct version number (~0.4.3~) see [[#the-problem-with-nilmtk-versioning][The Problem With NILMTK Versioning]].
+6. comment out imports in =nilmtk_contrib/disaggregate/__init__.py= see [[#the-problem-with-contrib-dependencies][The Problem With Contrib Dependencies]].
 7. Pip install from your local copy of the repo
 8. install nilmtk-contrib from github using pip
 
