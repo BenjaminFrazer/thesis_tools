@@ -52,8 +52,8 @@ Both problems are treated in more detail below.
 2. install nilmtk-metadata though pip from github
 3. [optionally fork &] clone nilmtk to local file system
 4. checkout the version tag you wish to use (in my case the most recent ~0.4.3~)
-5. edit =setup.py= for the correct version number (~0.4.3~) see [[#NILMTK-Versioning][this section]].
-6. comment out imports in =nilmtk_contrib/disaggregate/__init__.py= see [[#Contrib-Dependencies][this section]].
+5. edit =setup.py= for the correct version number (~0.4.3~) see [[*The Problem With NILMTK Versioning][this section]].
+6. comment out imports in =nilmtk_contrib/disaggregate/__init__.py= see [[*The Problem With Contrib Dependencies][this section]].
 7. Pip install from your local copy of the repo
 8. install nilmtk-contrib from github using pip
 
@@ -72,9 +72,6 @@ pip install ~/python/nilmtk/ # install NILMTK from local filesystem
 #+end_src
 
 ** The Problem With NILMTK Versioning
-:PROPERTIES:
-:CUSTOM_ID: NILMTK-Versioning
-:END:
 When installing via pip, no matter what version you try install by either pointing to a specific version tag (say 0.4.3) or commit hash, pip always thinks it's installing version ~0.4.0.x~. This is because pip takes it's version number directly from the ~version~ variable set by =setup.py= which, is always set as ~0.4.0.x~ for some reason.
 
 All of this is only becomes a problem if you wish to install the contrib package which has a requirement for ~nilmtk>=0.4.3~ which pip cannot resolve, because it thinks you have ~0.4.0.xx~.
@@ -83,9 +80,6 @@ All of this is only becomes a problem if you wish to install the contrib package
 To solve this you will need to clone the base NILMTK repo into your local file system and change the =setup.py= file to give you a version string of ~0.4.3.xx~.
 
 ** The Problem With Contrib Dependencies
-:PROPERTIES:
-:CUSTOM_ID: Contrib-Dependencies
-:END:
 When I attempted to get contrib working in 2022 using pip, I ran into numerous problems resolving dependencies. Despite getting my python packages to the versions specified in the documentation, the issues persisted. Since the issues often related to imports of non existent sub-modules, the import of any one algorithm would throw an error even if the import itself wasn't being used.
 
 *Solution*
