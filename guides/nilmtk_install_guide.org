@@ -1,12 +1,13 @@
 #+STARTUP: latexpreview
 #+STARTUP:  overview
-* Teble Of Contents :TOC_3:
+* Table Of Contents :TOC_3:
+- [[#overview][Overview:]]
   - [[#make-a-virtual-environment-with-a-particular-version-of-python][Make a virtual environment with a particular version of python]]
 - [[#install-with-contrib-using-virtualenv][Install with contrib using VirtualEnv]]
   - [[#the-problem-with-nilmtk-versioning][The Problem With NILMTK Versioning]]
   - [[#the-problem-with-contrib-dependencies][The Problem With Contrib Dependencies]]
 
-*Overview:*
+* Overview:
 This guide will hopefully take you through the NILMTK install using python virtual env. The suggested method of installation via conda didn't work (at least on Linux), but this *[[https://github.com/nilmtk/nilmtk/issues/953][issue]]* was found on the github page and suggested just using pip directly with a virtual environment. For this the [[id:4b4a7f3c-066a-4f12-9bd0-9279c956b752][virtualenv]] tool was used in conjunction with the =virtualenvwrapper=.
 
 From the issues page:
