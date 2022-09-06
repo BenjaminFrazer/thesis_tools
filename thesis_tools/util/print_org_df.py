@@ -5,15 +5,13 @@ from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from IPython.display import display
 import datetime
 def print_org_df(df, round_dp=2):
-    # df = df.
+    """Function for printing pretty dataframes in org bable."""
     originalcols = df.columns
     df_Pd_Datetime = df[[column for column in df.columns if is_datetime(df.loc[0,column])]].copy()
     df_Datetime = df[[column for column in df.columns if isinstance(df.loc[0,column],datetime.datetime)]].copy()
     df_Timedelta= df[[column for column in df.columns if isinstance(df.loc[0,column],pd.Timedelta)]].copy()
     df_nonDatetime = df[[column for column in df.columns if not isinstance(df.loc[0,column],datetime.datetime)|is_datetime(df.loc[0,column])|isinstance(df.loc[0,column],pd.Timedelta)]].copy()
-    # df_nonDatetime = df.select_dtypes(exclude=['datetime64','timedelta64',np.datetime64]).copy()
     df_nonDatetime = df_nonDatetime.round(round_dp)
-    # df_Datetime = df.select_dtypes(include=['datetime64','timedelta64',np.datetime64]).copy()
     for thiscol in df_Pd_Datetime.columns:
         df_Pd_Datetime.loc[:,thiscol] = df_Pd_Datetime[thiscol].astype(str).str[-30:-14]
 
