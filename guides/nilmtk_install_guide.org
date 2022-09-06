@@ -1,0 +1,112 @@
+* Base Installation with Using VirtualEnv
+*Overview:*
+This guide will hopefully take you through the NILMTK install using python virtual env. The suggested method of installation via conda didn't work (at least on Linux), but this *[[https://github.com/nilmtk/nilmtk/issues/953][issue]]* was found on the github page and suggested just using pip directly with a virtual environment. For this the [[id:4b4a7f3c-066a-4f12-9bd0-9279c956b752][virtualenv]] tool was used in conjunction with the =virtualenvwrapper=.
+
+From the issues page:
+#+begin_quote
+The solution from @TristanMenzinger I think should work, however I usually install it another way and so far I have had no problems.
+
+I recommend creating an environment with python 3.8 or lower and install via pip, the following line should work to install nilmtk:
+pip install git+https://github.com/nilmtk/nilmtk@0.4.3
+#+end_quote
+
+*Dependencies*
+- nilmtk_metadata
+- <=Python 3.8
+
+*Instructions:*
+- download the =virtualenv= and =virtualenvwrapper= tools.
+- Create a virtual environment with a python version < 3.8 with the =mkvirtualenv= command see [[id:62704420-c188-4d11-afc0-0a46d46fd345][managing-python-versions]] for details.
+- Activate that virtual environment with the =workon= command.
+- Install =nilmtk= and =nilmtk_metadata= from github using pip
+- test the install by loading the package
+
+The above boils down to:
+#+begin_src shell
+sudo pacman -S virtualenv virtualenvwrapper
+yay pthon3.8
+mkvirtualenv --python=/usr/bin/python3.8 nilmtk-env
+workon nilmtk-env
+pip install git+https://github.com/nilmtk/nilm_metadata/@0.2.4
+pip install git+https://github.com/nilmtk/nilmtk@0.4.3
+python -c "import nilmtk"
+#+end_src
+
+** Make a virtual environment with a particular version of python
+- Download the desired version of python
+- make the new virtualenv with
+#+begin_src shell
+mkvirtualenv --python=/usr/bin/python3.6 nilmtk-env
+workon <name>
+#+end_src
+
+* Install with contrib using VirtualEnv
+*Overview*
+The contrib package contains multiple more "bleeding edge" disaggregation algorithms which have been contributed by the community. The installation of NILMTK using venv is however slightly more complicated than before due to:
+A) a problem with the versioning of the NILTK package.
+B) Dependency troubles
+Both problems are treated in more detail below.
+
+*Steps*
+1. Create and enable a virtual environment for NILMTK
+2. install nilmtk-metadata though pip from github
+3. [optionally fork &] clone nilmtk to local file system
+4. checkout the version tag you wish to use (in my case the most recent ~0.4.3~)
+5. edit =setup.py= for the correct version number (~0.4.3~) see section ref:secProblemWithNILMTKVersioning
+6. comment out imports in =nilmtk_contrib/disaggregate/__init__.py= see section ref:secProblemWithConribDependencies
+7. Pip install from your local copy of the repo
+8. install nilmtk-contrib from github using pip
+
+This amounts to:
+#+begin_src shell
+mkvirtualenv nilmtk-env
+workon nilmtk-env
+pip install git+https://github.com/nilmtk/nilm_metadata/@0.2.4 # install nilm_metadata
+git clone https://github.com/nilmtk/nilmtk ~/python/nilmtk/ # clone nilmtk to local filesystem
+git clone https://github.com/nilmtk/nilmtk-contrib ~/python/nilmtk-contrib/ # clone contrib to local filesystem
+git checkout tags/0.4.3 # get the correct version of nilmtk
+git branch <yourBranch> # create and checkout your own branch to make edits (optional)
+git checkout -b <yourNewBranch>
+# make edits to local repos now
+pip install ~/python/nilmtk/ # install NILMTK from local filesystem
+#+end_src
+
+** The Problem With NILMTK Versioning <<secProblemWithNILMTKVersioning>>
+When installing via pip, no matter what version you try install by either pointing to a specific version tag (say 0.4.3) or commit hash, pip always thinks it's installing version ~0.4.0.x~. This is because pip takes it's version number directly from the ~version~ variable set by =setup.py= which, is always set as ~0.4.0.x~ for some reason.
+
+All of this is only becomes a problem if you wish to install the contrib package which has a requirement for ~nilmtk>=0.4.3~ which pip cannot resolve, because it thinks you have ~0.4.0.xx~.
+
+*Solution*
+To solve this you will need to clone the base NILMTK repo into your local file system and change the =setup.py= file to give you a version string of ~0.4.3.xx~.
+
+** The Problem With Contrib Dependencies <<secProblemWithConribDependencies>>
+When I attempted to get contrib working in 2022 using pip, I ran into numerous problems resolving dependencies. Despite getting my python packages to the versions specified in the documentation, the issues persisted. Since the issues often related to imports of non existent sub-modules, the import of any one algorithm would throw an error even if the import itself wasn't being used.
+
+*Solution*
+To solve this download contrib onto the local file system and comment out the imports of the broken disaggregation in =nilmtk_contrib/disaggregate/__init__.py= install locally with pip.
+
+#+begin_src python
+from nilmtk.disaggregate import Disaggregator
+from .dae import DAE
+from .dsc import DSC
+from .afhmm import AFHMM
+# from .afhmm_sac import AFHMM_SAC
+from .seq2point import Seq2Point
+from .seq2seq import Seq2Seq
+from .WindowGRU import WindowGRU
+from .rnn import RNN
+# from .rnn_attention import RNN_attention
+# from .rnn_attention_classification import RNN_attention_classification
+# from .resnet import ResNet
+# from .resnet_classification import ResNet_classification
+# from .bert import BERT
+#+end_src
+
+* ⚙ Configuration :ignore:
+#+STARTUP: latexpreview
+#+STARTUP:  overview
+#+INCLUDE: "~/.doom.d/orgReportHeader.org"
+
+# Local Variables:
+# line-spacing: 0.2
+# End:
