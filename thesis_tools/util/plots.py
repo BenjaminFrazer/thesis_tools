@@ -78,6 +78,7 @@ def plotly_sample_load_profiles(stats :pd.DataFrame, offset_d:int, span_d:int, d
     fig.show(fileName=output_filename)
 
 def myshow(self, *args, **kwargs):
+    """Display function specific to displaying plotly figures within an orgmode buffer."""
     fhtml = kwargs.pop("fileName",None)
     html = pio.to_html(self)
     if fhtml is None:

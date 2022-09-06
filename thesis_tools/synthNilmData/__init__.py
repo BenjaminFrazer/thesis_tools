@@ -7,4 +7,5 @@ from .synth_heatpump_dataset import synth_heatpump_agregate_dataset
 from .get_month_spans import get_month_spans
 from .calc_optimal_allignment_shift_years import calc_optimal_allignment_shift_years
 from .completeness_in_months_of_interest import completeness_in_months_of_interest
-from .filter_stats import filter_stats
+from .filter import hh_filter
+from .filter import hp_filter
