@@ -8,7 +8,7 @@
   - [[#the-problem-with-contrib-dependencies][The Problem With Contrib Dependencies]]
 
 * Overview:
-This guide will hopefully take you through the NILMTK install using python virtual env. The suggested method of installation via conda didn't work (at least on Linux), but this *[[https://github.com/nilmtk/nilmtk/issues/953][issue]]* was found on the github page and suggested just using pip directly with a virtual environment. For this the [[id:4b4a7f3c-066a-4f12-9bd0-9279c956b752][virtualenv]] tool was used in conjunction with the =virtualenvwrapper=.
+This guide will hopefully take you through the NILMTK install using python virtual env and pip. The suggested method of installation via conda didn't work for me (maybe due to Linux compatibility), but this *[[https://github.com/nilmtk/nilmtk/issues/953][issue]]* was found on the github page and suggested just using pip directly with a virtual environment. I use the [[id:4b4a7f3c-066a-4f12-9bd0-9279c956b752][virtualenv]] tool in conjunction with the =virtualenvwrapper= to manage my python packages.
 
 From the issues page:
 #+begin_quote
@@ -86,10 +86,18 @@ All of this is only becomes a problem if you wish to install the contrib package
 To solve this you will need to clone the base NILMTK repo into your local file system and change the =setup.py= file to give you a version string of ~0.4.3.xx~.
 
 ** The Problem With Contrib Dependencies
-When I attempted to get contrib working in 2022 using pip, I ran into numerous problems resolving dependencies. Despite getting my python packages to the versions specified in the documentation, the issues persisted. Since the issues often related to imports of non existent sub-modules, the import of any one algorithm would throw an error even if the import itself wasn't being used.
+Even with my python packages matching the dependencies specified in NILMTK and NILMTK-Contrib I ran into broken dependencies of the following disaggregation algorithms:
+- RNN_attention
+- RNN_attention_classification
+- AFHMM_SAC
+- ResNet
+- ResNet_classification
+- BERT
+
+Even though not all algorithms depend on the broken the implicit execution of the =__init__.py= file means that any import from the ~nilmtk.disaggregate~ module still causes an error.
 
 *Solution*
-To solve this download contrib onto the local file system and comment out the imports of the broken disaggregation in =nilmtk_contrib/disaggregate/__init__.py= install locally with pip.
+Since I wasn't able to find the right combination of package, the only recourse is thus to download contrib onto the local file system and comment out the imports of the broken disaggregation in =nilmtk_contrib/disaggregate/__init__.py=:
 
 #+begin_src python
 from nilmtk.disaggregate import Disaggregator
@@ -108,3 +116,4 @@ from .rnn import RNN
 # from .bert import BERT
 #+end_src
 
+You could do this either by cloning the repo, editing and installing local with pip, or install an editable package with pip directly from github. In this guide the former option is used.
