@@ -11,14 +11,9 @@ This README contains documentation on the code used in my MSc Thesis project. Al
 - [[#dataset-generation][Dataset Generation]]
 
 * Install Guide
-If you only wish to use the package:
+These steps will install A) my fork of NILMTK B) nilm_metadata C) the thesis_tools repo itself. Note that the thesis_tools repo *must* be installed from a cloned repo because it expects data files which exist relative to the package directory.
 #+begin_src shell
-pip install git+https://github.com/BenjaminFrazer/nilmtk/@benDevel
-pip install git+https://github.com/BenjaminFrazer/thesis_tools
-#+end_src
-
-Alternatively if you wish to edit and/or inspect a local copy of the package:
-#+begin_src shell
+pip install git+https://github.com/nilmtk/nilm_metadata/@0.2.4
 pip install git+https://github.com/BenjaminFrazer/nilmtk/@benDevel
 git clone -e https://github.com/BenjaminFrazer/thesis_tools <yourDesiredPath>
 cd <yourDesiredPath>
@@ -35,7 +30,7 @@ Or with zsh (hash is a special character that must be escaped with zsh):
 pip install -e git+https://github.com/nilmtk/nilmtk-contrib'#'egg=nilmtk-contrib
 #+end_src
 
-It should be noted that I faced difficulty getting NILMTK-contrib working with pip due to broken package dependencies. This can be worked around to get some of the algorithms working by editing the package source as detailed in [[file:../guides/nilmtk_install_guide.org][this guide]].
+⚠ I faced difficulty getting NILMTK-contrib working with pip due to broken package dependencies. This can be worked around to get some of the algorithms working by editing the package source as detailed in [[file:../guides/nilmtk_install_guide.org][this guide]].
 
 * Dependencies
 | Name                   | Version |
@@ -56,6 +51,7 @@ It should be noted that I faced difficulty getting NILMTK-contrib working with p
 * TODO Quick-start Guide
 ** TODO Running NILM Experiments & Test sweeps
 Running disaggregation experiments on the provided
+
 ** TODO Plotting Results
 * TODO Dataset Generation
 This repository uses all of the code used to generate the synthetic NILM datasets presented in this work. Since only part of the source dataset is publicly available, it is not possible to directly generate the same or new datasets with this code, however inspection of this code may be of value to understand the [[file:../data/readme.org][datasets]] that are presented in this work.
