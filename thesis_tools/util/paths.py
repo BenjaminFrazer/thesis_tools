@@ -19,13 +19,8 @@ class Paths :
     _base_synth_data_file_name_fstring = "SHDS_Agg_{x}_08-08-22.hdf5"
     _synth_data_file_names_by_agg_level = {}
 
-    def __init__(self,thesisDir = None, rawDataDir = "/home/benjaminf/data/"):
+    def __init__(self):
         self._results_overal_temp_agg_rel_path= [self._results_rel_path+f"res_overal_temp_agg_pow_{x+1}.csv" for x in range(5)]
-        if thesisDir is None:
-            repo = git.Repo('.', search_parent_directories=True)
-            thesisDir=repo.working_tree_dir
-        self._raw_data_dir_full_path = rawDataDir
-        self.root_dir = thesisDir
         path = os.path.abspath(__file__)
         module_dir_path = os.path.dirname(path)
         self.thesis_tools_root_dir = module_dir_path+self._this_module_path_rel_2_root
