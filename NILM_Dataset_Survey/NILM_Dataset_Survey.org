@@ -1,0 +1,389 @@
+#+STARTUP: latexpreview
+#+STARTUP: overview
+* Table Of Contents :noexport:TOC_1:
+- [[#survey-overview][Survey Overview]]
+- [[#redd][REDD]]
+- [[#blued][BLUED]]
+- [[#ideal][Ideal]]
+- [[#uk-dale][UK-Dale]]
+- [[#dredd][DREDD]]
+- [[#dataport-free][Dataport (Free)]]
+- [[#tracebase][Tracebase]]
+- [[#deddiag][DEDDIAG]]
+- [[#ampds][AMPds]]
+- [[#iawe][iAWE]]
+- [[#combed][COMBED]]
+- [[#eco][ECO]]
+- [[#greend][GREEND]]
+- [[#hes][HES]]
+- [[#ihepcds][IHEPCDS]]
+- [[#pecan-st][Pecan-St]]
+- [[#smart][Smart]]
+- [[#refit][REFIT]]
+- [[#sustdata][SustData]]
+- [[#berds][BERDS]]
+
+* Survey Overview
+I initially conducted this survey of existing NILM datasets to find a suitable dataset to run NILM experiments on heat pumps, however I was unable to find anything that fit my purposes. Since many of the metrics will be broadly applicable to any NILM research, I have chosen to make a summary of my findings available, allong with some notes on each dataset where relevant.
+
+** Table Reference Guide
+| Symbol | Description                           |
+|--------+---------------------------------------|
+| R      | Residential                           |
+| C      | Commercial                            |
+| P      | active power                          |
+| Q      | Reactive Power                        |
+| V      | Voltage                               |
+| I      | Current                               |
+| S      | Apparent Power                        |
+| f      | frequency                             |
+| \Theta      | Current/Voltage Phase shift           |
+| -      | not applicable (see notes on dataset) |
+
+
+** Summary Table
+#+ATTR_LATEX: :placement [H] :booktabs t :float sidewaystable
+#+caption: Summary of Survey results
+#+NAME: tabDatasets
+| Name      | NILMTK | Sub-meter | Location     | Type | Properties | Period(d) | Resolution | Channels | EV | AC | HT | HP |
+|-----------+--------+-----------+--------------+------+------------+-----------+------------+----------+----+----+----+----|
+| REDD      | Y      | Y         | Boston,USA   | R    |          6 |       19d | 15kHz/3s   | SVP      |  0 |  2 |  6 |  0 |
+| UK-Dale   | Y      | Y         | UK           | R    |          5 |      499d | 1s/6s      | SPV      |  0 |  0 |  1 |  0 |
+| Dataport  | Y      | Y         | TX&NY&CA,USA | R    |         75 |  3.25y/1m | 1min       | P        | 2+ | 1+ | 5+ |  0 |
+| iAWE      | Y      | Y         | India        | R    |          1 |       73d | 1Hz        | PQSfVI   |  0 |  2 |  0 |  0 |
+| Smart     | Y      | Y         | MA, USA      | R    |       3-5? |       90d | 1min       | PS       |  0 |  0 |  2 |  1 |
+| BERDS     | N      | Y         | USA          | C    |          3 |        7d | 20s        | PQS      |  0 |  0 |  0 |  1 |
+| DEDDIAG   | Y      | Y         | Germany      | R    |         15 |      3.5y | 1Hz        | P        |  0 |  0 |  0 |  1 |
+| AMPds     | Y      | Y         | Canada       | R    |          1 |      730d | 1min       | PQSfVI   |  0 |  1 |  1 |  1 |
+| Ideal     | Y      | Y         | UK           | R    |         39 |         ? | 1Hz        | S/P      |  0 |  0 | 1+ |  0 |
+| REFIT     | Y      | Y         | UK           | R    |         20 |       21m | 8s         | P$       |  0 |  0 |  3 |  0 |
+| HES       | Y      | Y         | UK           | R    |     225/26 |     1m/1y | 2min       | P        |  0 |  1 | 72 |  0 |
+| GREEND    | Y      | Y         | Austria/Ita  | R    |          9 |      310d | 1Hz        | P        |  0 |  0 |  1 |  0 |
+| ECO       | Y      | Y         | Switzerland  | R    |          6 |      244d | 1Hz        | PIV\Theta     |  0 |  0 |  0 |  0 |
+| COMBED    | Y      | Y         | India        | C    |          1 |       30d | 30s        | ?        |  0 |  0 |  0 |  0 |
+| BLUED     | N      | Y         | PA, US       | R    |          1 |        8d | 12kHz      | PIV      |  0 |  1 |  0 |  0 |
+| DREDD     | Y      | Y         | Netherlands  | R    |          1 |        6m | 1Hz        | P        |  0 |  1 |  0 |  0 |
+| SustData  | N      | N         | Portugal     | R    |         50 |      504d | 1min       | ?        |  0 |  0 |  0 |  0 |
+| Tracebase | N      | Y         | Germany      | R    |          - |         - | 1-10s      | P        |  0 |  0 |  0 |  0 |
+
+:save_table:
+#+BEGIN_SRC jupyter-python :session main :kernel nilmtk-env :async yes :noweb yes :var tab=tabDatasets
+import pandas as pd
+df=pd.DataFrame.from_records(tab)
+pd.set_option('display.max_colwidth', 100)
+df.columns =["Name","NILMTK","Sub-meter","Location","Type","Properties","Period(d)","Resolution","Channels","EV","AC","HT","HP","cite"]
+df.set_index("Name").to_csv("~/Repos/thesis/thesis_notes/nilmtk/NILM_Datasets.csv")
+#+End_src
+
+#+RESULTS:
+:end:
+:template:
+# * Template
+# ** Overview
+# - Full Name ::
+# - Source ::
+# - Institution ::
+# - Date ::
+
+# ** Description
+
+# ** Detailed Dataset Breakdown
+
+# ** Device Breakdown by Household
+# ** Instructions
+:end:
+* REDD
+:PROPERTIES:
+:ID:       00d71f35-1d66-468c-b5ef-e1c9a7ce26d0
+:END:
+:Acess:
+ - Username :: redd
+ - Password :: disaggregatetheenergy
+:end:
+** Overview
+- Full Name :: Reference Energy Disaggregation Dataset
+- Source :: http://redd.csail.mit.edu/
+- Institution :: MIT
+- Date :: 2011
+
+** Detailed Dataset Breakdown
+| Building | Start      | End        | nHP | nAC | nHT | nEV | Ts(s) | P | Q | S | I | V | P_sm | Q_sm | S_sm |
+|----------+------------+------------+-----+-----+-----+-----+-------+---+---+---+---+---+------+------+------|
+|        1 | 18/04/2011 | 24/05/2011 |   0 |   0 |   1 |   0 |     3 | F | F | T | F | F |   16 |    0 |    0 |
+|        2 | 17/04/2011 | 22/05/2011 |   0 |   0 |   0 |   0 |     3 | F | F | T | F | F |    9 |    0 |    0 |
+|        3 | 16/04/2011 | 30/05/2011 |   0 |   0 |   1 |   0 |     3 | F | F | T | F | F |   19 |    0 |    0 |
+|        4 | 16/04/2011 | 03/06/2011 |   0 |   2 |   1 |   0 |     3 | F | F | T | F | F |   17 |    0 |    0 |
+|        5 | 18/04/2011 | 31/05/2011 |   0 |   0 |   2 |   0 |     3 | F | F | T | F | F |   22 |    0 |    0 |
+|        6 | 21/05/2011 | 14/06/2011 |   0 |   1 |   1 |   0 |     3 | F | F | T | F | F |   14 |    0 |    0 |
+* BLUED
+** Overview
+- Full Name :: Building-Level fully Labelled Electricity Disaggregation Dataset
+- Source :: http://portoalegre.andrew.cmu.edu:88/BLUED/
+- Date :: 2011
+
+** Detailed Dataset Breakdown
+* Ideal
+** Overview
+- Full Name :: Intelligent Domestic Energy Advice Loop
+- Source :: https://datashare.ed.ac.uk/handle/10283/3647
+- Institution :: University of Edinburgh. School of Informatics.
+
+** Description
+From Source:
+#+begin_quote
+The IDEAL Household Energy Dataset comprises data from 255 UK homes. Alongside electric and gas data from each home the corpus contains individual room temperature and humidity readings and temperature readings from the boiler. For 39 of the 255 homes more detailed data is available, including individual electrical appliance use data, and data on individual radiators. Sensor data is augmented by anonymised survey data and metadata including occupant demographics, self-reported energy awareness and attitudes, and building, room and appliance characteristics. The 00README.txt download summarizes the contents of the other files.The IDEAL Household Energy Dataset comprises data from 255 UK homes. Alongside electric and gas data from each home the corpus contains individual room temperature and humidity readings and temperature readings from the boiler. For 39 of the 255 homes more detailed data is available, including individual electrical appliance use data, and data on individual radiators. Sensor data is augmented by anonymised survey data and metadata including occupant demographics, self-reported energy awareness and attitudes, and building, room and appliance characteristics. The 00README.txt download summarizes the contents of the other files.
+#+end_quote
+
+
+* UK-Dale
+:PROPERTIES:
+:ID:       7f126c5f-878f-467f-a585-24e23634790c
+:END:
+
+** Overview
+- Full Name ::
+- Source :: http://data.ukedc.rl.ac.uk/simplebrowse/edc/efficiency/residential/EnergyConsumption/Domestic
+- Better source :: https://jack-kelly.com/data/
+- Date :: 26/04/2017
+
+** Description
+From UK Dale =readme.txt=:
+#+begin_quote
+UK Domestic Appliance Level Electricity (UK-DALE)
+All versions
+
+UK-DALE : Preliminary data version. Superceded by UK-DALE-2015.
+
+UK-DALE-2015 : 2015 edition of the UK-DALE project data. Includes
+high speed whole house current/voltage data and disaggregated (6s)
+appliance power and aggregated (1s) whole house power.
+
+UK-DALE-2017 : 2017 edition of the UK-DALE project data.
+UK-DALE-16kHz extends the UK-DALE-2015 high speed whole house
+data in time for one house. UK-DALE-FULL-disaggregated includes
+and extends the UK-DALE-2015 disaggregated data and provides the
+full data in plain text or HDF5 format zipped files.
+#+end_quote
+
+** Detailed Dataset Breakdown
+| Building | Start      | End        | nHP | nAC | nHT | nEV | Ts(s) | P | Q | S | I | V | P_sm | Q_sm | S_sm |
+|----------+------------+------------+-----+-----+-----+-----+-------+---+---+---+---+---+------+------+------|
+|        1 | 09/11/2012 | 26/04/2017 |   0 |   0 |   0 |   0 |     6 | T | F | T | F | F |   48 |    0 |    4 |
+|        2 | 17/02/2013 | 10/10/2013 |   0 |   0 |   0 |   0 |     6 | T | F | T | F | F |   18 |    0 |    0 |
+|        3 | 27/02/2013 | 08/04/2013 |   0 |   0 |   1 |   0 |     6 | F | F | T | F | F |    4 |    0 |    0 |
+|        4 | 09/03/2013 | 01/10/2013 |   0 |   0 |   0 |   0 |     6 | F | F | T | F | F |    5 |    0 |    0 |
+|        5 | 29/06/2014 | 13/11/2014 |   0 |   0 |   0 |   0 |     6 | T | F | T | F | F |   24 |    0 |    0 |
+
+* DREDD
+:PROPERTIES:
+:ID:       c9dbc652-4dda-4ac1-b85d-8a2ef3e4f836
+:END:
+** Overview
+- Full Name :: Dutch Residential Energy Dataset
+- Source :: https://www.st.ewi.tudelft.nl/~akshay/dred/
+- Date :: 5th December 2015
+
+** Description
+From Source:
+#+begin_quote
+DRED (Dutch Residential Energy Dataset) is the first open-access, publicly available dataset from The Netherlands. Our deployment consists of several sensors measuring electricity, occupants occupancy and ambient parameters in a household. The data was collected over a period of 6 months from 5th July to 5th December 2015. The DRED dataset includes:
+- Electricity monitoring - aggregated energy consumption and appliance level energy consumption.
+- Ambient information - room-level indoor temperature, outdoor temperature, environmental parameters (wind speed, humidity, precipitation).
+- Occupancy information - room-level location information of occupants, WiFi and BT RSSI information for localization
+- Household information - house layout, number of appliance monitored, appliance::location mapping, etc.
+#+end_quote
+
+** Device Breakdown by household
+| 1              |
+|----------------|
+| Washing Mahine |
+| Fan            |
+| Oven           |
+| HVAC           |
+| Cooker         |
+| TV             |
+| Laptop         |
+| Fridge         |
+| Microwave      |
+
+* Dataport (Free)
+:PROPERTIES:
+:ID:       672fc067-8b39-4a69-a8fb-fc972274beca
+:END:
+- https://dataport.pecanstreet.org/data/database?hdf5
+
+** Description
+From Source:
+#+begin_quote
+As a university member of dataport, Pecan Street has provided access to static time-series datasets (1-second energy, 1-minute energy, and 15-minute energy) for 25 homes from three of our research regions (New York, California, Austin). The data provided for the New York region contains 6 months of data with 100% completeness across all intervals for 25 individual homes. The California region data has 99% completeness for 23 homes for 1-minute and 15-minute data. We started collecting 1-second data for California this year which will be made available at a later date. The data collected from Austin Texas area contains 99% completeness across all intervals for 25 homes.
+#+end_quote
+
+** Instructions
+1. Sign up for a free university account (I used university email)
+2. once logged in navigate to =residential data= (under the =DATA= drop-down menu)
+3. download all of the 1s data shown in figure the metadata for the entire dataset is included in every archive (confirmed by running diff on several)
+[[file:figures/dataportInstall.png]]
+
+* Tracebase
+** Overview
+- Source :: https://github.com/areinhardt/tracebase
+- Date :: January 2012
+
+** Description
+From Source:
+#+begin_quote
+The tracebase data set is a collection of power consumption traces which can be used in energy analytics research. Traces have been collected from individual electrical appliances, at an average reporting rate of one sample per second.
+#+end_quote
+
+** Devices
+Taken from source paper.
+| Device type                  | appliances | traces |
+|------------------------------+------------+--------|
+| Alarm clock                  |          1 |      5 |
+| Bean-to-cup coffee maker     |          1 |     44 |
+| Coffee maker                 |          5 |     39 |
+| Computer monitor             |         14 |    156 |
+| Computer printer             |          2 |     16 |
+| Cooking stove                |          1 |     16 |
+| Desktop computer             |          9 |     90 |
+| Digital TV receiver          |          2 |     24 |
+| Dishwasher                   |          3 |     47 |
+| DVD player                   |          3 |      5 |
+| Ethernet switch              |          3 |     33 |
+| External USB hard disk drive |          4 |     30 |
+| Freezer                      |          1 |      9 |
+| HDTV Media center            |          3 |     17 |
+| HiFi stereo amplifier        |          3 |     52 |
+| Iron                         |          1 |      3 |
+| Lamp                         |          6 |     45 |
+| Laptop computer              |          6 |     67 |
+| Microwave oven               |          5 |     48 |
+| Playstation 3 console        |          2 |     14 |
+| Refrigerator                 |          7 |    130 |
+| Subwoofer                    |          2 |     28 |
+| Television set               |         10 |     94 |
+| Toaster                      |          4 |     25 |
+| Tumble Dryer                 |          2 |      9 |
+| Vacuum cleaner               |          1 |      1 |
+| Video projector              |          1 |     19 |
+| Washing machine              |          7 |     22 |
+| Water fountain               |          1 |     56 |
+| Water kettle                 |          8 |     86 |
+| WiFi router                  |          4 |     40 |
+|------------------------------+------------+--------|
+| Total                        |        122 |  1,270 |
+
+* DEDDIAG
+*Overview*
+- [[https://figshare.com/articles/dataset/DEDDIAG_a_domestic_electricity_demand_dataset_of_individual_appliances_in_Germany/13615073][Download]]
+- =wenningerDEDDIAGDomesticElectricity2021=
+
+*Notes*
+- only house 8 is supported by the dataset converter provided in nilmtk
+
+*Devices of Interest*
+| Name      | ID | Number |
+|-----------+----+--------|
+| Heat-pump | HP |      1 |
+
+* AMPds
+*Source*
+- http://ampds.org/
+
+* iAWE
+*Source*
+- http://iawe.github.io/
+- https://drive.google.com/drive/folders/1c4Q9iusYbwXkCppXTsak5oZZYHfXPmnp
+- [[file:../../../../data/iawe/]]
+
+*Overview*
+- Date :: summer 2013
+- Number of House(s) :: 1
+- Length :: 73 Days
+- Coverage :: 73% energy is sub-metered (only plug loads though)
+
+*Dataset details*
+#+BEGIN_SRC jupyter-python :session main :kernel nilmtk-env :async yes :noweb yes :exports results
+<<setup>>
+from nilmtk import DataSet
+iawe = DataSet(dataPath+'/iawe/iawe.h5')
+printDatasetApplianceInfo(iawe)
+#+End_src
+
+#+RESULTS:
+| Building | Start      | End        | nHP | nAC | nHT | nEV | Ts(s) | P | Q | S | I | V | P_sm | Q_sm | S_sm |
+|----------+------------+------------+-----+-----+-----+-----+-------+---+---+---+---+---+------+------+------|
+|        1 | 24/05/2013 | 18/09/2013 |   0 |   2 |   0 |   0 |     6 | T | T | T | T | T |   10 |    9 |    9 |
+
+* COMBED
+Commercial Building Energy Dataset
+*Source*
+- http://combed.github.io/
+
+* ECO
+** Overview
+- Full Name :: Electricity Consumption and Occupancy
+- Source :: https://vs.inf.ethz.ch/res/show.html?what=eco-data
+- Institution :: Distributed Systems Group
+
+** Description
+From =beckelECODataSet2014=:
+#+begin_quote
+The ECO data set is a comprehensive data set for non-intrusive load monitoring and occupancy detection research. It was collected in 6 Swiss households over a period of 8 months. For each of the households, the ECO data set provides:
+
+    1 Hz aggregate consumption data. Each measurement contains data on current, voltage, and phase shift for each of the three phases in the household.
+    1 Hz plug-level data measured from selected appliances.
+    Occupancy information measured through a tablet computer (manual labeling) and a passive infrared sensor (in some of the households).
+#+end_quote
+
+** Device Breakdown
+| Household       |            |                |                     |                  |                  |
+|-----------------+------------+----------------+---------------------+------------------+------------------|
+| 1               | 2          | 3              | 4                   | 5                | 6                |
+|-----------------+------------+----------------+---------------------+------------------+------------------|
+| Fridge          | Tablet     | Tablet         | Fridge              | Tablet           | Lamp             |
+| dryer           | dishwasher | freezer        | kitchen appliances3 | coffee machine   | laptop & printer |
+| coffee machine  | stove      | coffee machine | lamp                | kettle           | routers          |
+| kettle          | fridge     | PC             | stereo & laptop     | microwave        | coffee machine   |
+| washing machine | TV         | fridge         | freezer             | fridge           | entertainment    |
+| PC              | stereo     | kettle         | tablet              | entertainment    | fridge           |
+| freezer.        | freezer    | entertainment. | entertainment       | PC               | kettle           |
+|                 | kettle     |                | microwave.          | router & printer |                  |
+|                 | lamp       |                |                     | fountain.        |                  |
+
+
+* GREEND
+*Source*
+ - http://sourceforge.net/projects/greend/
+
+* HES
+- 255 houses for 1m
+- 26 houses for 1y
+
+* IHEPCDS
+*Source*
+ - http://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption#
+
+* Pecan-St
+*Source*
+ - https://dataport.pecanstreet.org/
+
+* Smart
+*Source*
+ - http://traces.cs.umass.edu/index.php/Smart/Smart
+Meta data for three properties is implemented on [[id:74b6a406-1cfd-47f8-b48e-c2446d0ce5fe][NILMTK]] but five disaggregated properties are made available form the source. Maybe some are not worth looking at.
+
+* REFIT
+*Source*
+- https://pureportal.strath.ac.uk/en/datasets/refit-electrical-load-measurements-cleaned
+
+* SustData
+*Source*
+- http://aveiro.m-iti.org:3000/
+
+* BERDS
+*Full Name*
+Berley Energy Disaggregation Set
+
+*Source*
+- http://www.eecs.berkeley.edu/~maasoumy/

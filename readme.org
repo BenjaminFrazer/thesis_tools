@@ -1,0 +1,20 @@
+#+TITLE: Readme
+#+STARTUP: latexpreview
+#+STARTUP:  overview
+* Table of contents :TOC_1:
+- [[#overview][Overview]]
+- [[#links][Links]]
+
+* TODO Overview
+This repository contains supporting materials for my MSc project on non intrusive load motioning. Each major component is documented separately in more detail:
+- [[file:thesis_tools/readme.org][Code for Plotting, Dataset Synthesis and Disaggregation Experiments]]
+- [[file:data/readme.org][Synthetic NILMTK datasets for heat pump disaggregation]]
+- [[file:poster/Benjamin Frazer - MSc Project Poster.pdf][Project poster]]
+- Final report
+- [[file:guides/nilmtk_install_guide.org][Guides on the installation of NILMTK]]
+- [[file:NILM_Dataset_Survey/NILM_Dataset_Survey.org][A survey of existing NILM datasets]]
+
+
+* TODO Links
+- Final report
+- Code Documentation

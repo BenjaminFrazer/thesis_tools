@@ -1,0 +1,28 @@
+#+TITLE: Readme
+#+STARTUP: latexpreview
+#+STARTUP:  overview
+
+* Overview
+This document will give an overview of the synthetic NILM datasets contained in this section. The intent was to investigate the viability of feeder level NILM deployments for system operators intending to monitor available flexibility (specifically that of heat pumps) on the network. Thus the datasets presented in this repository have been specifically designed with the intent of investigating NILM on heat-pumps under increasing power aggregation level and are therefor *unsuitable* for NILM work on any other appliance class.
+
+* Datasets Structure
+The datasets have been specifically designed for the purpose of investigating the effect of increasing power aggregation level on the performance of contemporary disaggregation algorithms on heat pumps. Each artificial aggregate within a dataset contains only a single heat pump load profile in aggregate with load from an arbitrary number of households. Five discrete 'power aggregation' levels are chosen each corresponding to the addition of a whole additional household's worth of appliance load.  Each of these artificial aggregates use the same n household load profiles with the only difference being the single heat pump load profile. Due to limitations within NILMTK, each power aggregation level was implemented as an individual dataset. This is duplicated for five different heat pump load profiles to create five individual artificial aggregates at each 'power aggregation level'.
+[[file:../poster/figures/IncreasingPowAggDataset.drawio.png]]
+
+The artificial aggregate for one of the five heat pump load profiles can be formulated as:
+[[file:../poster/figures/eqDatasetSyntheis.svg]]
+Where N is the 'power aggregation level', t is the time index, H is a household load profile and P is the heat pump load profile.
+
+** Span
+Each dataset spans at minimum a four month period between =01/01/2021 00:00:00 -- 01/05/2021 00:00:00= though some datasets extend beyond this.
+
+** Sample period
+The sample period for the household load profiles is =1min= while the heat pump load profile is =2min= the artificial aggregate is given at =1min= resolution using a ZOH up-sampled heat pump load profile.
+
+* TODO Dataset synthesis
+For more details about the procedure/assumptions used to generate these datasets see the final report.
+
+* TODO Data source
+- point to heat pump load profile data
+- this data is anonymised
+- household data is not made available
