@@ -73,7 +73,7 @@ git clone https://github.com/nilmtk/nilmtk-contrib ~/python/nilmtk-contrib/ # cl
 git checkout tags/0.4.3 # get the correct version of nilmtk
 git branch <yourBranch> # create and checkout your own branch to make edits (optional)
 git checkout -b <yourNewBranch>
-# make edits to local repos now
+<do edits> # make edits to the local repos now
 pip install ~/python/nilmtk/ # install NILMTK from local filesystem
 #+end_src
 
