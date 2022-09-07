@@ -1,12 +1,24 @@
-#+TITLE: Readme
 #+STARTUP: latexpreview
 #+STARTUP:  overview
-* Table of contents :TOC_1:
-- [[#overview][Overview]]
-- [[#links][Links]]
-
 * TODO Overview
-This repository contains supporting materials for my MSc project on non intrusive load motioning. Each major component is documented separately in more detail:
+[[file:poster/figures/increasingAggLevels_poster.png]]
+
+This repository contains accompanying materials for my MSc project on non intrusive load motioning such as:
+- Code +documentation
+- Final Report and Posters
+- A NILM dataset survey
+- Synthesised NILM datasets (for heat pumps)
+
+The context and objectives of this work are summarised in the abstract of the final report:
+#+begin_quote
+The ongoing energy transition on the UK grid will lead to an increase in heat-pump load on the electrical network, presenting an opportunity to utilise this flexible load for demand-side response (DSR). Efficiently quantifying the available flexibility could be aided by developments in the field of non-intrusive load monitoring. Non-intrusive load monitoring (NILM) is the process of determining individual appliance loads from an analysis of an single aggregated point of measurement, such as a smart meter. The NILMTK is an open source repository of tools, algorithms and datasets targeted to wards appliance disaggregation research. NILMTK is structured towards appliance disaggregation at high sample rates (1-0.5Hz) and at only the individual household level, while the existing NILM research datasets have few heat-pumps. In this work, a synthetic NILMTK compatible dataset is presented, targeted towards heat pump load at both the individual and multi household level. A selection of contemporary disaggregation algorithms are then bench-marked using NILMTK on this dataset under a variety of power aggregation levels and sample rates including those reflective of A) typical household smart meter sample rates B) a feeder level measurement.
+
+The full methodology, structure and assumptions entailing dataset synthesis are discussed, along with the necessary modifications to the NILMTK and the structure of the experiments. It is shown that with high sample rates (1-0.5Hz) and with just a single household, heat pumps can be disaggregated with a high degree of accuracy. However, with feeder measurements containing greater that four households in aggregate the performance of all algorithms is shown to have degraded and offer little advantage over simple heuristic methods. It is also shown that the predictive disaggregation performance at decreasing sample-rates, up to and including those of household smart meters, remains accurate though degrades rapidly as more households are introduced.
+#+end_quote
+
+
+* Repository content
+Each major component is documented separately in greater detail.
 - [[file:thesis_tools/readme.org][Code for Plotting, Dataset Synthesis and Disaggregation Experiments]]
 - [[file:data/readme.org][Synthetic NILMTK datasets for heat pump disaggregation]]
 - [[file:poster/Benjamin_Frazer-MSc_Project_Poster.pdf][Project Poster]]
@@ -14,7 +26,6 @@ This repository contains supporting materials for my MSc project on non intrusiv
 - [[file:guides/nilmtk_install_guide.org][Guides on the installation of NILMTK]]
 - [[file:NILM_Dataset_Survey/NILM_Dataset_Survey.org][A survey of existing NILM datasets]]
 
-
-* TODO Links
-- Final report
-- Code Documentation
+* Table of contents :TOC_1:
+- [[#overview][Overview]]
+- [[#repository-content][Repository content]]
