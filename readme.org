@@ -1,9 +1,7 @@
 #+STARTUP: latexpreview
 #+STARTUP:  overview
 #+TITLE: Tools for MSc Thesis Project on Heat Pump NILM
-* Heat load Profile Estimates Vs Ground truth :ignore:
-[[file:poster/figures/increasingAggLevels_poster.png]]
-* TODO Overview
+* Overview
 This repository contains accompanying materials for my MSc project on non intrusive load motioning such as:
 - Code +documentation
 - Final Report and Posters
@@ -18,6 +16,8 @@ The full methodology, structure and assumptions entailing dataset synthesis are 
 #+end_quote
 
 
+* Heat load Profile Estimates Vs Ground truth :ignore:
+[[file:poster/figures/increasingAggLevels_poster.png]]
 * Repository content
 Each major component is documented separately in greater detail.
 - [[file:thesis_tools/readme.org][Code for Plotting, Dataset Synthesis and Disaggregation Experiments]]
@@ -28,6 +28,6 @@ Each major component is documented separately in greater detail.
 - [[file:NILM_Dataset_Survey/NILM_Dataset_Survey.org][A survey of existing NILM datasets]]
 
 * Table of contents :TOC_1:
-- [[#heat-load-profile-estimates-vs-ground-truth][Heat load Profile Estimates Vs Ground truth]]
 - [[#overview][Overview]]
+- [[#heat-load-profile-estimates-vs-ground-truth][Heat load Profile Estimates Vs Ground truth]]
 - [[#repository-content][Repository content]]
