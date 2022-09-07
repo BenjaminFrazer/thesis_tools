@@ -1,6 +1,5 @@
 * Code Documentation
-This README contains documentation on the code used in my MSc Thesis project.
-- all code packaged as a pip package split into two main sub modules relating to specific functionality
+This README contains documentation on the code used in my MSc Thesis project. All code packaged as a pip package split into two main sub modules relating to specific functionality
   + Dataset synthesis
   + General utility (plots paths)
 
@@ -9,6 +8,7 @@ This README contains documentation on the code used in my MSc Thesis project.
 - [[#install-guide][Install Guide]]
 - [[#dependencies][Dependencies]]
 - [[#quick-start-guide][Quick-start Guide]]
+- [[#dataset-generation][Dataset Generation]]
 
 * Install Guide
 If you only wish to use the package:
@@ -25,7 +25,7 @@ cd <yourDesiredPath>
 pip install -e .
 #+end_src
 
-The contrib package may be installed using the following command when using bash:
+Optionally the contrib package containing advanced NILM algorithms may be installed using the following command when using bash:
 #+begin_src shell
 pip install -e git+https://github.com/nilmtk/nilmtk-contrib#egg=nilmtk-contrib
 #+end_src
@@ -54,6 +54,9 @@ It should be noted that I faced difficulty getting NILMTK-contrib working with p
 **Optional: Only required for advanced NILM algorithms.
 
 * TODO Quick-start Guide
-** TODO Dataset Generation
 ** TODO Running NILM Experiments & Test sweeps
+Running disaggregation experiments on the provided
 ** TODO Plotting Results
+* TODO Dataset Generation
+This repository uses all of the code used to generate the synthetic NILM datasets presented in this work. Since only part of the source dataset is publicly available, it is not possible to directly generate the same or new datasets with this code, however inspection of this code may be of value to understand the [[file:../data/readme.org][datasets]] that are presented in this work.
+[[file:../figures/DataSynthesisPipeline.png]]
