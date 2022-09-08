@@ -39,9 +39,9 @@ def construct_experiment_dic(dataset, sample_period, results_name):
     'methods': {"CO":CO({}),
                 "FMHH":FHMMExact({'num_of_states':2}),
                 'Mean':Mean({}),
-                # "DAE":DAE({}),
-                # 'Seq2Point':Seq2Point({}),
-                # 'Seq2Seq':Seq2Seq({})
+                 "DAE":DAE({}),
+                 'Seq2Point':Seq2Point({}),
+                 'Seq2Seq':Seq2Seq({})
                 },
     'train': {
         'datasets': {

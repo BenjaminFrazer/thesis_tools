@@ -33,14 +33,14 @@ pip install -e git+https://github.com/nilmtk/nilmtk-contrib'#'egg=nilmtk-contrib
 ⚠ I faced difficulty getting NILMTK-contrib working with pip due to broken package dependencies. This can be worked around to get some of the algorithms working by editing the package source as detailed in [[file:../guides/nilmtk_install_guide.org][this guide]].
 
 * Dependencies
-| Name                   | Version |
-|------------------------+---------|
-| Python                 |     3.8 |
-| Pandas                 |  0.25.3 |
-| Numpy                  |  1.19.3 |
-| [[https://github.com/BenjaminFrazer/nilmtk.git][BenjaminFrazer/NILMTK]]* |   0.4.3 |
-| [[https://github.com/nilmtk/nilmtk-contrib][NILMTK-contrib]]**       |   0.1.2 |
-| [[https://github.com/nilmtk/nilm_metadata/][NILM-Metadata]]          |   0.2.4 |
+| Name                   |       Version |
+|------------------------+---------------|
+| Python                 |           3.8 |
+| Pandas                 |        0.25.3 |
+| Numpy                  | 1.19.3-1.19.5 |
+| [[https://github.com/BenjaminFrazer/nilmtk.git][BenjaminFrazer/NILMTK]]* |         0.4.3 |
+| [[https://github.com/nilmtk/nilmtk-contrib][NILMTK-contrib]]**       |         0.1.2 |
+| [[https://github.com/nilmtk/nilm_metadata/][NILM-Metadata]]          |         0.2.4 |
 
 *Notes:*
 
