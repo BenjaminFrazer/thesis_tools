@@ -1,3 +1,4 @@
+#+STARTUP: overview
 * Code Documentation
 This README contains documentation on the code used in my MSc Thesis project. All code packaged as a pip package split into two main sub modules relating to specific functionality
   + Dataset synthesis
@@ -39,6 +40,7 @@ pip install -e git+https://github.com/nilmtk/nilmtk-contrib'#'egg=nilmtk-contrib
 | Pandas                 |        0.25.3 |
 | Numpy                  | 1.19.3-1.19.5 |
 | Tensorflow             |         2.7.4 |
+| cvxpy                  |         1.2.1 |
 | [[https://github.com/BenjaminFrazer/nilmtk.git][BenjaminFrazer/NILMTK]]* |         0.4.3 |
 | [[https://github.com/nilmtk/nilmtk-contrib][NILMTK-contrib]]**       |         0.1.2 |
 | [[https://github.com/nilmtk/nilm_metadata/][NILM-Metadata]]          |         0.2.4 |
