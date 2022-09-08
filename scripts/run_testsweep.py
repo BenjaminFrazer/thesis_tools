@@ -9,9 +9,10 @@ from nilmtk.api import API
 from nilmtk.disaggregate import CO, Mean, FHMMExact
 from nilmtk_contrib.disaggregate import DAE, Seq2Seq, Seq2Point
 import pandas as pd
+import os
 
 ##### Experiment Configureation ####################################
-power_agg_levels_2_test = [1]#,2,3] #,3,4,5]
+power_agg_levels_2_test = [1,2,3] #,3,4,5]
 samplePeriods2Test_s= [120*60, 180*60,240*60,300*60] #[(x+1)*60 for x in range(15)]
 # samplePeriods2Test= [300*60] #[(x+1)*60 for x in range(15)]
 dateString = (datetime.datetime.now()).strftime("%d-%m-%y")
@@ -21,6 +22,8 @@ results_fstring= "/SHDS_results_{dateString}_PAgg{pAgg}_Ts{Ts}.hdf5" # name form
 ##### Figure out file paths ########################################
 hdf_filename =f"{paths.synth_data_path}/SHDS_05-08-22.hdf5"
 datasets = paths.synth_data_dict
+if not os.path.exists(paths.results):
+    os.mkdir(paths.results)
 
 def construct_experiment_dic(dataset, sample_period, results_name):
     """Creates a single testcase experiment definition dictionary."""
@@ -40,9 +43,9 @@ def construct_experiment_dic(dataset, sample_period, results_name):
     'methods': {"CO":CO({}),
                 "FMHH":FHMMExact({'num_of_states':2}),
                 'Mean':Mean({}),
-                 "DAE":DAE({}),
-                 'Seq2Point':Seq2Point({}),
-                 'Seq2Seq':Seq2Seq({})
+                 # "DAE":DAE({}),
+                 # 'Seq2Point':Seq2Point({}),
+                 # 'Seq2Seq':Seq2Seq({})
                 },
     'train': {
         'datasets': {
