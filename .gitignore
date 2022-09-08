@@ -18,7 +18,6 @@ thesis_tools/config/__pycache__/*.pyc
 /data/intermediary/
 /interactive_plots/*.html
 /poster/figures/drawio/*.bkp
-figures/
 poster/poster_content.org_archive
 scripts/*.h5
 scripts/experiment_log.txt
