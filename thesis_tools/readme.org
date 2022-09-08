@@ -50,7 +50,48 @@ pip install -e git+https://github.com/nilmtk/nilmtk-contrib'#'egg=nilmtk-contrib
 
 * TODO Quick-start Guide
 ** TODO Running NILM Experiments & Test sweeps
-Running disaggregation experiments on the provided
+Replicating the experimental results generated in this work should be trivial using the [[file:../scripts/run_testsweep.py][run_testsweep.py]] script provided and configuring which power/temporal aggregation test cases you wish to sweep as follows:
+
+Replicating sweep of power aggregation level at Ts: =2min=:
+#+begin_src python
+##### Experiment Configureation ####################################
+power_agg_levels_2_test = [1,2,3,4,5]
+samplePeriods2Test_s= [120]
+# samplePeriods2Test= [300*60] #[(x+1)*60 for x in range(15)]
+dateString = (datetime.datetime.now()).strftime("%d-%m-%y")
+sweep_summary_file = paths.results+f"/PowAggSweep_summary_{dateString}.csv"
+results_fstring= "/PowAggSweep_{dateString}_PAgg{pAgg}_Ts{Ts}.hdf5"
+#+end_src
+
+Replicating a sweep of temporal aggregation (sample period) at power aggregations =1,3,5=:
+#+begin_src python
+##### Experiment Configureation ####################################
+power_agg_levels_2_test = [1,3,5]
+samplePeriods2Test = [(x+1)*60 for x in range(15)]
+dateString = (datetime.datetime.now()).strftime("%d-%m-%y")
+sweep_summary_file = paths.results+f"/TempAggSweep_summary_{dateString}.csv"
+results_fstring= "/TempAggSweep_{dateString}_PAgg{pAgg}_Ts{Ts}.hdf5"
+#+end_src
+
+*** Configuring disaggregation algorithms to test
+This can be configured by simply commenting out or adding disaggregation algorithms in =construct_experiment_dic()=, for example if we wish not to use =DAE=:
+#+begin_src python
+experiment = {
+    ...
+    # here we specify which disaggregation algorithms we wish to test
+    'methods': {"CO":CO({}),
+                "FMHH":FHMMExact({'num_of_states':2}),
+                'Mean':Mean({}),
+                 # "DAE":DAE({}),
+                 'Seq2Point':Seq2Point({}),
+                 'Seq2Seq':Seq2Seq({})
+                },
+    ...
+#+end_src
+
+
+*** Further configuration
+The =run_testsweep.py= script is simply wrapped around the modified NILMTK experimentation API. As such any details on any further configuration options can be found in the main [[https://github.com/nilmtk/nilmtk/tree/master/docs/manual][NILMTK wiki]].
 
 ** TODO Plotting Results
 * TODO Dataset Generation

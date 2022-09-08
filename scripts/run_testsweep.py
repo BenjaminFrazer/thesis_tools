@@ -11,12 +11,12 @@ from nilmtk_contrib.disaggregate import DAE, Seq2Seq, Seq2Point
 import pandas as pd
 
 ##### Experiment Configureation ####################################
-power_agg_levels_2_test = [1,2,3] #,3,4,5]
-samplePeriods2Test= [120*60, 180*60,240*60,300*60] #[(x+1)*60 for x in range(15)]
+power_agg_levels_2_test = [1]#,2,3] #,3,4,5]
+samplePeriods2Test_s= [120*60, 180*60,240*60,300*60] #[(x+1)*60 for x in range(15)]
 # samplePeriods2Test= [300*60] #[(x+1)*60 for x in range(15)]
 dateString = (datetime.datetime.now()).strftime("%d-%m-%y")
-sweep_summary_file = paths.results+f"/SHDS_sweep_summary_{dateString}.csv"
-results_fstring= "/SHDS_results_{dateString}_PAgg{pAgg}_Ts{Ts}.hdf5"
+sweep_summary_file = paths.results+f"/SHDS_sweep_summary_{dateString}.csv" # summary file name
+results_fstring= "/SHDS_results_{dateString}_PAgg{pAgg}_Ts{Ts}.hdf5" # name format for results file
 
 ##### Figure out file paths ########################################
 hdf_filename =f"{paths.synth_data_path}/SHDS_05-08-22.hdf5"
@@ -36,6 +36,7 @@ def construct_experiment_dic(dataset, sample_period, results_name):
     'results_store_name': results_name,
     'sample_rate': sample_period,
     'appliances': ['heat pump'],
+    # here we specify which disaggregation algorithms we wish to test
     'methods': {"CO":CO({}),
                 "FMHH":FHMMExact({'num_of_states':2}),
                 'Mean':Mean({}),
@@ -72,7 +73,7 @@ summary_glob = pd.DataFrame()
 i = 0
 for pow_agg_level in power_agg_levels_2_test:
     dataset = datasets[pow_agg_level]
-    for sample_period in samplePeriods2Test:
+    for sample_period in samplePeriods2Test_s:
         i+=1
         this_result_name = paths.results+results_fstring.format(pAgg = pow_agg_level,Ts=sample_period,dateString=dateString)
         experiment = construct_experiment_dic(dataset=dataset,sample_period=sample_period,results_name=this_result_name)
