@@ -1,4 +1,5 @@
 #!/usr/bin/env ipython
+
 import pandas as pd
 import os
 from .paths import Paths
@@ -38,22 +39,24 @@ class Result:
 class TestSweep:
     _sweep_summary_df = pd.DataFrame()
     _test_case_name_array = pd.DataFrame()
-    _data_avail_array = pd.DataFrame()
     # _test_case_coverage_array = np.array()
-    def __init__(self, sweep_summary:str, paths=Paths()):
+    def __init__(self, sweep_summary_path:str="",sweep_summary_df=None,paths=Paths()):
+        # sweep_summary_path:str="",sweep_summary_df=None,paths=Paths()
         self.paths=paths
-        self._sweep_summary_df = pd.read_csv(sweep_summary)
+        if sweep_summary_df is None:
+            self._sweep_summary_df = pd.read_csv(sweep_summary_path)
+        else:
+            self._sweep_summary_df = sweep_summary_df
         self._populate_TsVsP_arrays()
 
     def _populate_TsVsP_arrays(self):
         self.uniqueSamplePeriods= self._sweep_summary_df["SamplePeriod(s)"].unique()
         grouped_summary = self._sweep_summary_df[["PowAggLevel","SamplePeriod(s)","ResultsFileName","Itteration"]].groupby("Itteration").first()
         self._test_case_name_array = grouped_summary.pivot(columns="PowAggLevel",index="SamplePeriod(s)",values="ResultsFileName")
-        self._data_avail_array = ~self._test_case_name_array.isnull()
 
     @property
     def available_data(self):
-        return self._data_avail_array
+        return ~self._test_case_name_array.isnull()
 
     @property
     def sample_periods(self):
@@ -64,19 +67,38 @@ class TestSweep:
         return self.available_data.columns.values
 
     def __getitem__(self, item):
-        pass
+        selectedSweepSummaryDf = self._sweep_summary_df[self._sweep_summary_df["PowAggLevel"]==item]
+        return TestSweep(sweep_summary_df=selectedSweepSummaryDf)
+
+    # def loc(self,row,column=None):
+    #     if column is None:
+    #         selectedSweepSummaryDf = self._sweep_summary_df[self._sweep_summary_df["SamplePeriod"]==row]
+    #         return TestSweep(sweep_summary_df=selectedSweepSummaryDf)
+    #     else:
+    #         selectedSweepSummaryDf = self._sweep_summary_df[(self._sweep_summary_df["SamplePeriod"]==row)&(self._sweep_summary_df["PowAggLevel"]==column)]
+    #         return TestSweep(sweep_summary_df=selectedSweepSummaryDf)
 
     def __repr__(self) -> str:
         return repr(self.available_data)
 
-    def plot_predictions_increasing_temporal_agg(self,powerAgg,start:pd.Timestamp,end:pd.Timestamp,disAggAlg2Plot:list):
+    def plot_predictions_increasing_temporal_agg(self,powerAgg,start=None,end=None,building2Plot=1,disAggAlg2Plot=None):
         # TODO convert to useing kwargs with sensible defaults
         # TODO add option to specify what sample rates to plot predictions for
         # start = pd.Timestamp("2013/04/03 6:30")
         # end =   pd.Timestamp("2013/04/03 12:00")
         # Get valid testcases at this power agg level
+
+        if disAggAlg2Plot is None:
+            # this will need to be refined! Get this from the dataset column names somehow
+            disAggAlg2Plot = ["DAE", "Seq2Point", "Seq2Seq", "CO","FMHH"]
+
+        householdKeys = [f"/shds_mixed_{x+1}" for x in range(5)]
         selectedTCs = self.available_data[powerAgg]
         samplePeriods2Test = selectedTCs[~selectedTCs.isnull()].index.values
+
+        if start is None:
+            self.available_data[powerAgg]
+
         figure(figsize=(12, 12), dpi=100)
         fig, axs = plt.subplots(len(disAggAlg2Plot)+1,sharex=True,figsize=(12, 8),)
         plt.subplots_adjust(wspace=0, hspace=0)
