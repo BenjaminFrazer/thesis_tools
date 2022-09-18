@@ -5,6 +5,7 @@ import os
 from .paths import Paths
 from matplotlib.pyplot import figure
 import matplotlib.pyplot as plt
+import copy
 import numpy as np
 
 class Result:
@@ -35,6 +36,14 @@ class Result:
     def __repr__(self) -> str:
         baseNames = [os.path.basename(x) for x in self._fileList]
         return str(baseNames)
+
+class LocWrapper:
+    def __init__(self,parent):
+        self.parent=parent
+        return
+
+    def __getitem__(self,key):
+        return self.parent.filter_by_available_data(self.parent.available_data.loc[key])
 
 class TestSweep:
     _sweep_summary_df = pd.DataFrame()
@@ -70,6 +79,23 @@ class TestSweep:
         selectedSweepSummaryDf = self._sweep_summary_df[self._sweep_summary_df["PowAggLevel"]==item]
         return TestSweep(sweep_summary_df=selectedSweepSummaryDf)
 
+
+    def filter_by_available_data(self,availableData:pd.DataFrame):
+        if type(availableData) is pd.DataFrame:
+            pwr = availableData.columns
+            temp = availableData.index
+            df = self._sweep_summary_df
+            filteredData = df[df["PowAggLevel"].isin(pwr)&df["SamplePeriod(s)"].isin(temp)]
+            return TestSweep(sweep_summary_df=filteredData)
+        elif type(availableData) is pd.Series:
+            if availableData.index.name =="PowAggLevel":
+                pass
+
+            # figure out if
+
+    @property
+    def loc(self):
+        return LocWrapper(self)
     # def loc(self,row,column=None):
     #     if column is None:
     #         selectedSweepSummaryDf = self._sweep_summary_df[self._sweep_summary_df["SamplePeriod"]==row]
