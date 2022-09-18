@@ -23,7 +23,7 @@ Each major component is documented separately in greater detail.
 - [[file:thesis_tools/readme.org][Code for Data Synthesis NILM Experiments & Install Guide]]
 - [[file:data/readme.org][Synthetic NILMTK datasets for heat pump disaggregation]]
 - [[file:poster/Benjamin_Frazer-MSc_Project_Poster.pdf][Project Poster]]
-- Final report
+- [[file:report/HeatPump_NILMTK_MSc_Project_report.pdf][Final Report]]
 - [[file:guides/nilmtk_install_guide.org][Guides on the installation of NILMTK]]
 - [[file:NILM_Dataset_Survey/NILM_Dataset_Survey.org][A survey of existing NILM datasets]]
 
